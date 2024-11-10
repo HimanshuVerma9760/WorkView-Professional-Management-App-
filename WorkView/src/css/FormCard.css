@@ -1,0 +1,42 @@
+.formDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputStyle {
+  min-height: 3rem;
+  border: 2px solid rgb(213, 210, 210);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.btnStyle {
+  display: flex;
+  flex-direction: column;
+  min-height: 3rem;
+  color: white;
+  background-color: rgb(97, 150, 97);
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 15px;
+}
+.btnStyle:hover {
+  transition: 0.2s;
+  background-color: rgb(79, 130, 79);
+}
+
+.errorText {
+  color: red;
+  font-size: 1rem;
+  margin-bottom: 2px;
+}
+
+.errorContainer {
+  color: red;
+  text-align: center;
+  margin-top: 2rem;
+}

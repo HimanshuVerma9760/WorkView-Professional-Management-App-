@@ -1,42 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import "../css/FormCard.css";
+
 export default function FormCard() {
   let apiName = useRef("team-leader");
-  const formDiv = {
-    display: "flex",
-    flexDirection: "column",
-  };
-  const inputStyle = {
-    minHeight: "3rem",
-    border: "2px solid rgb(213, 210, 210)",
-    borderRadius: "5px",
-    padding: "10px",
-  };
-  const btnStyle = {
-    display: "flex",
-    flexDirection: "column",
-    minHeight: "3rem",
-    color: "white",
-    backgroundColor: "rgb(90, 137, 90)",
-    border: "none",
-    borderRadius: "5px",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    cursor: "pointer",
-  };
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [teamCode, setTeamCode] = useState("");
   const [error, setError] = useState(false);
   const [dbError, setDbError] = useState("");
-
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [teamCodeError, setTeamCodeError] = useState("");
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -86,7 +64,6 @@ export default function FormCard() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-
     let valid = true;
 
     if (name.length < 3) {
@@ -148,13 +125,18 @@ export default function FormCard() {
           }
         );
       } catch (error) {
-        console.log("Error", error);
+        setError(true);
+        setDbError(error);
       }
       if (!response || !response.ok) {
-        const errorData = await response.json();
-        setError(true);
-        setDbError(errorData.error);
-        console.log("Error Occurred! while creating new user");
+        if (response !== undefined) {
+          const errorData = await response.json();
+          setError(true);
+          setDbError(errorData.error);
+        } else {
+          setError(true);
+          setDbError("Sorry..! Try Again Later");
+        }
       } else {
         navigate("/login");
       }
@@ -171,78 +153,68 @@ export default function FormCard() {
     <>
       <form method="post" onSubmit={handleSubmit}>
         <div style={{ marginTop: "5rem" }}>
-          <div style={{ color: "red", textAlign: "center" }}>
-            {error ? dbError : ""}
-          </div>
-          <div style={formDiv}>
+          <div className="errorContainer">{error ? dbError : ""}</div>
+          <div className="formDiv">
             <label htmlFor="name">Name*</label>
             <input
               type="text"
-              style={inputStyle}
+              className="inputStyle"
               id="name"
               placeholder="full name"
               value={name}
               onChange={handleChange}
               autoComplete="on"
             />
-            <div style={{ fontSize: "1rem", marginBottom: "2px" }}>
-              {nameError && <p style={{ color: "red" }}>{nameError}</p>}
-            </div>
+            <div className="errorText">{nameError && <p>{nameError}</p>}</div>
           </div>
-          <div style={formDiv}>
+          <div className="formDiv">
             <label htmlFor="email">Email*</label>
             <input
               type="text"
-              style={inputStyle}
+              className="inputStyle"
               id="email"
               placeholder="example@email.com"
               value={email}
               onChange={handleChange}
               autoComplete="on"
             />
-            <div style={{ fontSize: "1rem", marginBottom: "2px" }}>
-              {emailError && <p style={{ color: "red" }}>{emailError}</p>}
-            </div>
+            <div className="errorText">{emailError && <p>{emailError}</p>}</div>
           </div>
-          <div style={formDiv}>
+          <div className="formDiv">
             <label htmlFor="pwd">Password*</label>
             <input
               type="password"
-              style={inputStyle}
+              className="inputStyle"
               id="pwd"
               placeholder="8+ characters"
               value={password}
               onChange={handleChange}
               autoComplete="on"
             />
-            <div style={{ fontSize: "1rem", marginBottom: "2px" }}>
-              {passwordError && <p style={{ color: "red" }}>{passwordError}</p>}
+            <div className="errorText">
+              {passwordError && <p>{passwordError}</p>}
             </div>
           </div>
           {apiName.current === "member" ? (
-            <div style={formDiv}>
+            <div className="formDiv">
               <label htmlFor="teamCode">Team Code*</label>
               <input
                 type="text"
-                style={inputStyle}
+                className="inputStyle"
                 id="teamCode"
                 placeholder="10 characters"
                 value={teamCode}
                 onChange={handleChange}
                 autoComplete="on"
               />
-              <div style={{ fontSize: "1rem", marginBottom: "2px" }}>
-                {teamCodeError && (
-                  <p style={{ color: "red" }}>{teamCodeError}</p>
-                )}
+              <div className="errorText">
+                {teamCodeError && <p>{teamCodeError}</p>}
               </div>
             </div>
-          ) : (
-            ""
-          )}
+          ) : null}
 
           <div>
-            <button type="submit" style={btnStyle}>
+            <button type="submit" className="btnStyle">
               Submit
             </button>
           </div>
