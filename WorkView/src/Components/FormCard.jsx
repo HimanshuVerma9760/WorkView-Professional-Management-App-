@@ -3,16 +3,20 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../css/FormCard.css";
 
 export default function FormCard() {
-  let apiName = useRef("team-leader");
+  const apiName = useRef("team-leader");
+  const confirmPassRef = useRef(null);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [teamCode, setTeamCode] = useState("");
   const [error, setError] = useState(false);
   const [dbError, setDbError] = useState("");
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [teamCodeError, setTeamCodeError] = useState("");
 
   const navigate = useNavigate();
@@ -27,6 +31,8 @@ export default function FormCard() {
     setNameError("");
     setPassword("");
     setPasswordError("");
+    setConfirmPassword("");
+    setConfirmPasswordError("");
     setTeamCode("");
     setTeamCodeError("");
   }, [apiName.current]);
@@ -53,6 +59,16 @@ export default function FormCard() {
       case "pwd":
         setPasswordError("");
         setPassword(value);
+        break;
+      case "confirmPwd":
+        if (password.trim().length >= 8) {
+          setConfirmPasswordError("");
+          setConfirmPassword(value);
+        } else {
+          confirmPassRef.current.focus();
+          setConfirmPasswordError("You must enter a valid password first");
+          setPasswordError("");
+        }
         break;
       case "teamCode":
         setTeamCodeError("");
@@ -86,6 +102,12 @@ export default function FormCard() {
       valid = false;
     } else {
       setPasswordError("");
+    }
+    // console.log(password === confirmPassword);
+    if (password === confirmPassword) {
+      confirmPasswordError("");
+    } else {
+      setConfirmPasswordError("Passwords do not match");
     }
     if (apiName.current === "member") {
       if (teamCode.length < 10) {
@@ -144,6 +166,7 @@ export default function FormCard() {
       setName("");
       setPassword("");
       setTeamCode("");
+      setConfirmPasswordError("");
     } else {
       console.log("invalid");
     }
@@ -189,10 +212,26 @@ export default function FormCard() {
               placeholder="8+ characters"
               value={password}
               onChange={handleChange}
+              ref={confirmPassRef}
               autoComplete="on"
             />
             <div className="errorText">
               {passwordError && <p>{passwordError}</p>}
+            </div>
+          </div>
+          <div className="formDiv">
+            <label htmlFor="confirmPwd">Confirm Password*</label>
+            <input
+              type="password"
+              className="inputStyle"
+              id="confirmPwd"
+              placeholder="8+ characters"
+              value={confirmPassword}
+              onChange={handleChange}
+              autoComplete="on"
+            />
+            <div className="errorText">
+              {confirmPasswordError && <p>{confirmPasswordError}</p>}
             </div>
           </div>
           {apiName.current === "member" ? (
@@ -205,7 +244,6 @@ export default function FormCard() {
                 placeholder="10 characters"
                 value={teamCode}
                 onChange={handleChange}
-                autoComplete="on"
               />
               <div className="errorText">
                 {teamCodeError && <p>{teamCodeError}</p>}
