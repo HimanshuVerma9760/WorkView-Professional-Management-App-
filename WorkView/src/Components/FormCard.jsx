@@ -13,7 +13,7 @@ export default function FormCard() {
   const [teamCode, setTeamCode] = useState("");
   const [error, setError] = useState(false);
   const [dbError, setDbError] = useState("");
-  const [nameError, setNameError] = useState("");
+  const [nameError, setNameError] = useState(""); 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");

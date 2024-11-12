@@ -18,3 +18,11 @@
   color: white;
   background-color: rgb(115, 160, 115);
 }
+.formCard{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 50%;
+  margin: auto;
+}

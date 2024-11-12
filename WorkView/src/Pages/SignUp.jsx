@@ -46,7 +46,7 @@ export default function SignUp() {
           </Link>
         </div>
       </div>
-      <div style={{ margin: "3rem 30%", fontSize: "20px" }}>
+      <div className="formCard">
         <FormCard />
       </div>
     </>
