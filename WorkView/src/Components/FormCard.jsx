@@ -103,9 +103,8 @@ export default function FormCard() {
     } else {
       setPasswordError("");
     }
-    // console.log(password === confirmPassword);
     if (password === confirmPassword) {
-      confirmPasswordError("");
+      setConfirmPasswordError("");
     } else {
       setConfirmPasswordError("Passwords do not match");
     }
