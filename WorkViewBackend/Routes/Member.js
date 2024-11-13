@@ -3,7 +3,7 @@ const { postMember } = require("../Controller/memberController");
 const { body, validationResult } = require("express-validator");
 const router = express.Router();
 
-const member = router.post(
+router.post(
   "/api-create-member",
   [
     body("memberName")
@@ -34,4 +34,4 @@ const member = router.post(
   postMember
 );
 
-exports.member = member;
+exports.member = router;

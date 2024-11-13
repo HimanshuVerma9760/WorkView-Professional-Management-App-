@@ -1,6 +1,7 @@
 .formDiv {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .inputStyle {
@@ -31,7 +32,7 @@
 
 .errorText {
   color: red;
-  font-size: 1rem;
+  font-size: 13px;
   margin-bottom: 2px;
 }
 

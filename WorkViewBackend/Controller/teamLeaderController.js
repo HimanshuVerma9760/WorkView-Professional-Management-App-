@@ -1,3 +1,6 @@
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 const TeamLeader = require("../Models/TeamLeader");
 
 async function generateUniqueCode() {
@@ -39,10 +42,11 @@ const postTeamLeader = async (req, res) => {
         .json({ error: "Team-Leader already exist, kindly Log in!" });
     } else {
       const uniqueCode = await generateUniqueCode();
+      const hashedPassword = await bcrypt.hash(leaderData.leaderPassword, 10);
       const leader = new TeamLeader({
         name: leaderData.leaderName,
         email: leaderData.leaderEmail,
-        password: leaderData.leaderPassword,
+        password: hashedPassword,
         teamCode: uniqueCode,
       });
 
@@ -57,4 +61,34 @@ const postTeamLeader = async (req, res) => {
   }
 };
 
+const checkTeamLeader = async (req, res, next) => {
+  const { leaderEmail, leaderPassword } = req.body;
+
+  const teamLeader = await TeamLeader.findOne({
+    email: leaderEmail,
+  });
+  if (teamLeader) {
+    const verifyLeader = await bcrypt.compare(
+      leaderPassword,
+      teamLeader.password
+    );
+    if (verifyLeader) {
+      console.log("login successfull");
+      const token = jwt.sign(
+        { id: teamLeader._id, email: teamLeader.email },
+        process.env.SECRET_KEY,
+        { expiresIn: "1h" }
+      );
+      return res.json({ message: "Login Successfull", token });
+    } else {
+      console.log("password error");
+      return res.status(500).json({ error: "Invalid Credentials" });
+    }
+  } else {
+    console.log("email error");
+    return res.status(500).json({ error: "Invalid Credentials" });
+  }
+};
+
 exports.postTeamLeader = postTeamLeader;
+exports.checkTeamLeader = checkTeamLeader;

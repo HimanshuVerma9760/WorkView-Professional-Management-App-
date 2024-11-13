@@ -13,7 +13,7 @@ export default function FormCard() {
   const [teamCode, setTeamCode] = useState("");
   const [error, setError] = useState(false);
   const [dbError, setDbError] = useState("");
-  const [nameError, setNameError] = useState(""); 
+  const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -107,6 +107,7 @@ export default function FormCard() {
       setConfirmPasswordError("");
     } else {
       setConfirmPasswordError("Passwords do not match");
+      valid = false;
     }
     if (apiName.current === "member") {
       if (teamCode.length < 10) {
@@ -165,6 +166,7 @@ export default function FormCard() {
       setName("");
       setPassword("");
       setTeamCode("");
+      setConfirmPassword("");
       setConfirmPasswordError("");
     } else {
       console.log("invalid");

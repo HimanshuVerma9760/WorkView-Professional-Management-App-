@@ -113,13 +113,13 @@ export default function LoginPage() {
         setError(true);
         setDbError(error);
       }
+      console.log("error, while login");
       if (!response || !response.ok) {
+        setError(true);
         if (response !== undefined) {
           const errorData = await response.json();
-          setError(true);
           setDbError(errorData.error);
         } else {
-          setError(true);
           setDbError("Sorry..! Try Again Later");
         }
       } else {
@@ -147,8 +147,9 @@ export default function LoginPage() {
             <div
               style={{
                 display: "flex",
-                justifyContent: "space-around",
-                margin: "2rem",
+                gap: "2rem",
+                justifyContent: "space-between",
+                marginTop: "2rem",
               }}
             >
               <Link
@@ -170,8 +171,8 @@ export default function LoginPage() {
             </div>
           </div>
           <form method="post" onSubmit={submitHandler}>
+            <div className="errorContainer">{error ? dbError : ""}</div>
             <div style={{ marginTop: "5rem" }}>
-              <div className="errorContainer">{error ? dbError : ""}</div>
               <div className="formDiv">
                 <label htmlFor="email">Email*</label>
                 <input
