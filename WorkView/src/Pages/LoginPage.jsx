@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import "../css/LoginPage.css";
 import "../css/FormCard.css";
+import LogOut from "../Components/LogOut";
 
 export default function LoginPage() {
   const apiName = useRef("team-leader");
@@ -27,8 +28,11 @@ export default function LoginPage() {
     setPasswordError("");
     setTeamCode("");
     setTeamCodeError("");
+    if (localStorage.getItem("token")) {
+      setError(true);
+      setDbError("Someone is already logged In!");
+    }
   }, [apiName.current]);
-
   if (location.pathname === "/member-login") {
     apiName.current = "member";
   } else if (location.pathname === "/login") {
@@ -36,6 +40,9 @@ export default function LoginPage() {
   }
 
   function handleChange(event) {
+    if (localStorage.getItem("token")) {
+      return;
+    }
     setError(false);
     const key = event.target.id;
     const value = event.target.value;
@@ -58,6 +65,9 @@ export default function LoginPage() {
 
   async function submitHandler(event) {
     event.preventDefault();
+    if (error) {
+      return;
+    }
     let valid = true;
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -113,7 +123,6 @@ export default function LoginPage() {
         setError(true);
         setDbError(error);
       }
-      console.log("error, while login");
       if (!response || !response.ok) {
         setError(true);
         if (response !== undefined) {
@@ -123,7 +132,10 @@ export default function LoginPage() {
           setDbError("Sorry..! Try Again Later");
         }
       } else {
-        navigate("/login");
+        const res = await response.json();
+        const token = res.token;
+        localStorage.setItem("token", token);
+        navigate(`/${apiName.current}/dashboard`);
       }
       setEmail("");
       setPassword("");

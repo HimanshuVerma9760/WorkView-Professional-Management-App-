@@ -81,11 +81,9 @@ const checkTeamLeader = async (req, res, next) => {
       );
       return res.json({ message: "Login Successfull", token });
     } else {
-      console.log("password error");
       return res.status(500).json({ error: "Invalid Credentials" });
     }
   } else {
-    console.log("email error");
     return res.status(500).json({ error: "Invalid Credentials" });
   }
 };

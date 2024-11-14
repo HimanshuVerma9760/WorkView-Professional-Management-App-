@@ -4,6 +4,8 @@ const {
   checkTeamLeader,
 } = require("../Controller/teamLeaderController");
 const { body, validationResult } = require("express-validator");
+const Auth = require("../Controller/Auth");
+const dashBoardController = require("../Controller/dashBoardController");
 const router = express.Router();
 
 router.post(
@@ -45,5 +47,8 @@ router.post(
   },
   checkTeamLeader
 );
+
+router.use(Auth);
+router.get("/dashboard", dashBoardController);
 
 exports.teamLeader = router;
