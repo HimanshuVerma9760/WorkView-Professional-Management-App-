@@ -4,12 +4,8 @@ import { useEffect, useState } from "react";
 import LogOut from "./LogOut";
 
 export default function Header() {
-  // const navigate = useNavigate();
   const location = useLocation();
   const [isLogin, setIsLogin] = useState(false);
-  // const logOutHandler = () => {
-  //   localStorage.removeItem("token");
-  // };
   useEffect(() => {
     localStorage.getItem("token") ? setIsLogin(true) : setIsLogin(false);
   }, [location]);

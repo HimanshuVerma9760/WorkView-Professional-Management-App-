@@ -1,47 +1,19 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Auth from "../Components/Auth";
-import LogOut from "../Components/LogOut";
+import { useNavigate, useLoaderData } from "react-router-dom";
 
 export default function LeaderDashboardPage() {
   const navigate = useNavigate();
-  const [leaderData, setLeaderData] = useState(null);
+  const leaderData = useLoaderData();
 
-  async function verifyToken() {
-    try {
-      const data = await Auth();
-      if (data && data.valid) {
-        setLeaderData(data.result);
-      } else {
-        localStorage.removeItem("token");
-        navigate("/login");
-      }
-    } catch (error) {
-      console.error("Error verifying token:", error);
-      navigate("/login");
-    }
-  }
-
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      verifyToken();
-    } else {
-      navigate("/login");
-    }
-  }, [navigate]);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   return (
     <>
       <div>
         <h1>Leader Dashboard</h1>
-        <button
-          onClick={() => {
-            localStorage.removeItem("token");
-            navigate("/login");
-          }}
-        >
-          Log Out
-        </button>
+        <button onClick={handleLogout}>Log Out</button>
       </div>
       {leaderData ? (
         <div>

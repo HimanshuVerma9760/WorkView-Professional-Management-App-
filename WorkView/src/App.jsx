@@ -6,10 +6,9 @@ import Contact from "./Pages/ContactPage";
 import SignUp from "./Pages/SignUp";
 import LoginPage from "./Pages/LoginPage";
 import LeaderDashboardPage from "./Pages/LeaderDashboardPage";
-// import { useEffect } from "react";
+import { loader as verifyTokenLoader } from "./Components/Auth";
 
 export default function App() {
-  // const [isLogin, setIsLogin] = useState(false);
   const router = createBrowserRouter([
     {
       path: "/",
@@ -42,6 +41,7 @@ export default function App() {
         },
         {
           path: "/team-leader/dashboard",
+          loader: verifyTokenLoader,
           element: <LeaderDashboardPage />,
         },
       ],

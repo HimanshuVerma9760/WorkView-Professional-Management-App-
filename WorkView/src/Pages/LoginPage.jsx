@@ -2,8 +2,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import "../css/LoginPage.css";
 import "../css/FormCard.css";
-import LogOut from "../Components/LogOut";
-import Auth from "../Components/Auth";
 
 export default function LoginPage() {
   const apiName = useRef("team-leader");
@@ -29,13 +27,14 @@ export default function LoginPage() {
     setPasswordError("");
     setTeamCode("");
     setTeamCodeError("");
-    if (localStorage.getItem("token")) {
-      const isValid=Auth()
-      setError(true);
-      setDbError(
-        "Someone is already logged In!"
-      );
+    const token = localStorage.getItem("token");
+    async function verifyToken() {
+      if (token) {
+        setError(true);
+        setDbError("Someone is already logged In, Kindly Log out first!");
+      }
     }
+    verifyToken();
   }, [apiName.current]);
   if (location.pathname === "/member-login") {
     apiName.current = "member";
@@ -133,7 +132,7 @@ export default function LoginPage() {
           const errorData = await response.json();
           setDbError(errorData.error);
         } else {
-          setDbError("Sorry..! Try Again Later");
+          setDbError("Sorry! Try Again Later");
         }
       } else {
         const res = await response.json();
