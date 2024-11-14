@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import "../css/LoginPage.css";
 import "../css/FormCard.css";
 import LogOut from "../Components/LogOut";
+import Auth from "../Components/Auth";
 
 export default function LoginPage() {
   const apiName = useRef("team-leader");
@@ -29,8 +30,11 @@ export default function LoginPage() {
     setTeamCode("");
     setTeamCodeError("");
     if (localStorage.getItem("token")) {
+      const isValid=Auth()
       setError(true);
-      setDbError("Someone is already logged In!");
+      setDbError(
+        "Someone is already logged In!"
+      );
     }
   }, [apiName.current]);
   if (location.pathname === "/member-login") {
@@ -149,7 +153,7 @@ export default function LoginPage() {
       <div>
         <div className="mainHead">
           <h1>Log in to your WorkView Account</h1>
-          <h2>Professionals Personal Tab</h2>
+          <h2>Professional's Personal Tab</h2>
         </div>
         <div className="mainForm">
           <div style={{ textAlign: "center" }}>
