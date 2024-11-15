@@ -22,20 +22,24 @@ export default function LoginPage() {
     setDbError("");
     setEmail("");
     setEmailError("");
-    setError("");
+    setError(false);
     setPassword("");
     setPasswordError("");
     setTeamCode("");
     setTeamCodeError("");
     const token = localStorage.getItem("token");
-    async function verifyToken() {
+    function checkLogin() {
       if (token) {
         setError(true);
         setDbError("Someone is already logged In, Kindly Log out first!");
+      } else {
+        setDbError("");
+        setError(false);
       }
     }
-    verifyToken();
-  }, [apiName.current]);
+    checkLogin();
+  }, [location.pathname, apiName.current]);
+
   if (location.pathname === "/member-login") {
     apiName.current = "member";
   } else if (location.pathname === "/login") {
@@ -123,14 +127,19 @@ export default function LoginPage() {
           }
         );
       } catch (error) {
+        console.log("catch block error!!");
         setError(true);
         setDbError(error);
       }
       if (!response || !response.ok) {
         setError(true);
         if (response !== undefined) {
-          const errorData = await response.json();
-          setDbError(errorData.error);
+          try {
+            const errorData = await response.json();
+            setDbError(errorData.error);
+          } catch (error) {
+            setDbError(response.statusText);
+          }
         } else {
           setDbError("Sorry! Try Again Later");
         }

@@ -1,5 +1,5 @@
 export default async function Auth(token) {
- try {
+  try {
     const response = await fetch(
       "http://localhost:3000/team-leader/dashboard",
       {
@@ -26,7 +26,6 @@ export async function loader() {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    localStorage.removeItem("token");
     return redirectToLogin();
   }
 
@@ -42,6 +41,6 @@ export async function loader() {
 function redirectToLogin() {
   return new Response(null, {
     status: 302,
-    headers: { Location: "/login" },
+    headers: { Location: "/" },
   });
 }

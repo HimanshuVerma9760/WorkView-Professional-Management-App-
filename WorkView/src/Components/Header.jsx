@@ -19,6 +19,7 @@ export default function Header() {
         <div className="nav">
           {isLogin ? (
             <li>
+              <Link to="/team-leader/dashboard">Dashboard</Link>
               <Link onClick={LogOut}>Log out</Link>
             </li>
           ) : (
