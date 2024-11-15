@@ -4,14 +4,6 @@ main {
   justify-content: center;
   margin: 8rem 15rem;
 }
-
-.detail-section {
-  background-color: rgb(236, 232, 228);
-  padding-left: 15%;
-  padding-right: 15%;
-  display: flex;
-  flex-wrap: wrap;
-}
 .navs {
   display: flex;
   flex-direction: row;
@@ -36,18 +28,119 @@ main {
   cursor: pointer;
   background-color: rgb(115, 160, 115);
 }
-div{
+div {
   margin-bottom: 2rem;
-  /* color: rgb(90, 137, 90); */
 }
-p{
+p {
   margin-top: 10px;
 }
-/* @media (max-width: 768px) {
-  .sidebar {
-    display: none;
+
+.intro-section {
+  text-align: left;
+  margin: auto;
+  font-size: 2rem;
+}
+.detail-section {
+  background-color: rgb(236, 232, 228);
+  padding: 2rem;
+}
+.home-head {
+  display: flex;
+  justify-content: center;
+  font-size: 1.5rem;
+  text-align: center;
+  padding-left: 25%;
+  padding-right: 25%;
+  margin-bottom: 2rem;
+}
+.home-detail div h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.home-detail div p {
+  font-size: 1rem;
+  color: #555;
+}
+.home-detail {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  font-size: 15px;
+}
+
+/*media querry*/
+
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+    margin: 4rem 2rem;
   }
-  .main-content {
-    width: 100%;
+  
+  img {
+    max-width: 100%;
   }
-} */
+
+  .navs {
+    flex-direction: column;
+    align-items: Left;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .nav-link {
+    padding: 10px 1.5rem;
+    margin-bottom: 1rem;
+    font-size: medium;
+  }
+
+  .intro-section {
+    text-align: center;
+    font-size: 1.5rem;
+  }
+
+  .detail-section {
+    padding: 1rem;
+  }
+
+  .home-head {
+    padding-left: 5%;
+    padding-right: 5%;
+    font-size: 1.2rem;
+  }
+
+  .home-detail {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .home-detail div h2 {
+    font-size: 1.2rem;
+  }
+
+  .home-detail div p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-link {
+    padding: 8px 1rem;
+    font-size: small;
+  }
+
+  .intro-section {
+    font-size: 1.2rem;
+  }
+
+  .home-head {
+    font-size: 1rem;
+  }
+
+  .home-detail div h2 {
+    font-size: 1rem;
+  }
+
+  .home-detail div p {
+    font-size: 0.8rem;
+  }
+}

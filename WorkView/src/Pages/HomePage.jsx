@@ -2,24 +2,10 @@ import { Link } from "react-router-dom";
 import "../css/Home.css";
 
 export default function HomePage() {
-  const homeHead = {
-    display: "flex",
-    justifyContent: "center",
-    fontSize: "25px",
-    textAlign: "center",
-    paddingLeft: "25%",
-    paddingRight: "25%",
-  };
-  const homeDetail = {
-    display: "flex",
-    flexDirection: "row",
-    gap: "2rem",
-    fontSize: "15px",
-  };
   return (
     <>
       <main>
-        <div style={{ textAlign: "Left", margin: "auto", fontSize: "2rem" }}>
+        <div className="intro-section">
           <h1>One tool for doing it all, together</h1>
           <h3>Work View is the task management tool for Professionals</h3>
           <div className="navs">
@@ -31,16 +17,16 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-        <div style={{ margin: "auto" }}>
-          <img src="workView.webp" />
+        <div className="image-section">
+          <img src="workView.webp" alt="WorkView illustration" />
         </div>
       </main>
 
       <div className="detail-section">
-        <div style={homeHead}>
+        <div className="home-head">
           <h1>Make work more transparent, efficient, and accounted for</h1>
         </div>
-        <div style={homeDetail}>
+        <div className="home-detail">
           <div>
             <h2>Everyone is always in the loop</h2>
             <p>
