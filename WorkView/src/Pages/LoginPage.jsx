@@ -116,6 +116,7 @@ export default function LoginPage() {
       }
       let response;
       try {
+        console.log("req is sent");
         response = await fetch(
           `http://localhost:3000/${apiName.current}/api-login-${apiName.current}`,
           {
@@ -132,6 +133,7 @@ export default function LoginPage() {
         setDbError(error);
       }
       if (!response || !response.ok) {
+        console.log("response error");
         setError(true);
         if (response !== undefined) {
           try {
@@ -141,10 +143,13 @@ export default function LoginPage() {
             setDbError(response.statusText);
           }
         } else {
+          console.log("db error");
           setDbError("Sorry! Try Again Later");
         }
       } else {
+        console.log("token is set");
         const res = await response.json();
+        // console.log(res);
         const token = res.token;
         localStorage.setItem("token", token);
         navigate(`/${apiName.current}/dashboard`);

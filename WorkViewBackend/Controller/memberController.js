@@ -1,5 +1,7 @@
 const TeamLeader = require("../Models/TeamLeader");
 const User = require("../Models/User");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const postMember = async (req, res) => {
   try {
@@ -32,10 +34,11 @@ const postMember = async (req, res) => {
         .status(400)
         .json({ error: "Member already exist, kindly Log in!" });
     } else {
+      const hashedPassword = await bcrypt.hash(memberData.memberPassword, 10);
       const member = new User({
         name: memberData.memberName,
         email: memberData.memberEmail,
-        password: memberData.memberPassword,
+        password: hashedPassword,
         teamCode: memberData.teamCode,
         teamLeader: teamLeaderId,
       });
@@ -62,4 +65,37 @@ const postMember = async (req, res) => {
       .json({ error: "An error occurred while creating the team member" });
   }
 };
+
+const checkMember = async (req, res, next) => {
+  console.log("checkMember");
+  try {
+    const { memberEmail, memberPassword, teamCode } = req.body;
+    console.log(memberEmail);
+    const exsistingMember = await User.findOne({ email: memberEmail });
+    if (exsistingMember) {
+      const verifyPass = await bcrypt.compare(
+        memberPassword,
+        exsistingMember.password
+      );
+      if (verifyPass && teamCode === exsistingMember.teamCode) {
+        const token = jwt.sign(
+          { id: exsistingMember._id, email: exsistingMember.email },
+          process.env.SECRET_KEY,
+          { expiresIn: "1h" }
+        );
+        console.log("Successfull login");
+        return res.json({ message: "Successfull login!", token });
+      } else {
+        return res.status(500).json({ error: "Authentication Failed!" });
+      }
+    } else {
+      return res.status(500).json({ error: "Invalid Credentials!" });
+    }
+  } catch (error) {
+    console.log("error in checkMember catch block:", error);
+    return res.status(500).json({ error: error });
+  }
+};
+
+exports.checkMember = checkMember;
 exports.postMember = postMember;

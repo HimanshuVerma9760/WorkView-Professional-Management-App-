@@ -7,6 +7,7 @@ import SignUp from "./Pages/SignUp";
 import LoginPage from "./Pages/LoginPage";
 import LeaderDashboardPage from "./Pages/LeaderDashboardPage";
 import { loader as verifyTokenLoader } from "./Components/Auth";
+import MemberDashboardPage from "./Pages/MemberDashboardPage";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -44,12 +45,13 @@ export default function App() {
           loader: verifyTokenLoader,
           element: <LeaderDashboardPage />,
         },
+        {
+          path: "/member/dashboard",
+          loader: verifyTokenLoader,
+          element: <MemberDashboardPage />,
+        },
       ],
     },
   ]);
-
-  // useEffect(() => {
-  //   localStorage.getItem("token") ? setIsLogin(true) : setIsLogin(false);
-  // }, []);
   return <RouterProvider router={router}></RouterProvider>;
 }

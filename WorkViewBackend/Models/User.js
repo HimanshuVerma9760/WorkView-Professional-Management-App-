@@ -22,6 +22,10 @@ const userSchema = new Schema({
     type: String,
     default: "Member",
   },
+  teamCode:{
+    type:String,
+    required:true,
+  },
   tasks: [
     {
       type: Schema.Types.ObjectId,
