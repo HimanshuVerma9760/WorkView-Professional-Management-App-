@@ -30,7 +30,8 @@ export async function loader({ request }) {
   const url = new URL(request.url);
   const apiName = url.pathname;
   const token = localStorage.getItem("token");
-  if (!token) {
+  const whichDash = localStorage.getItem("whichDash");
+  if (!token || !whichDash) {
     return redirectToLogin();
   }
 
@@ -39,6 +40,7 @@ export async function loader({ request }) {
     return result;
   } else {
     localStorage.removeItem("token");
+    localStorage.removeItem("whichDash");
     return redirectToLogin();
   }
 }

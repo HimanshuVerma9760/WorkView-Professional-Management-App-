@@ -16,13 +16,17 @@ const taskSchema = new Schema({
     enum: ["Pending", "In Progress", "Completed"],
     default: "Pending",
   },
+  notes: {
+    type: String,
+    default: "",
+  },
   assignedTo: {
     type: Schema.Types.ObjectId,
-    ref: "User", // References the user assigned to this task
+    ref: "User",
   },
   createdBy: {
     type: Schema.Types.ObjectId,
-    ref: "TeamLeader", // References the team leader who created the task
+    ref: "TeamLeader",
   },
   deadline: {
     type: Date,

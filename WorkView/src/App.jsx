@@ -8,6 +8,8 @@ import LoginPage from "./Pages/LoginPage";
 import LeaderDashboardPage from "./Pages/LeaderDashboardPage";
 import { loader as verifyTokenLoader } from "./Components/Auth";
 import MemberDashboardPage from "./Pages/MemberDashboardPage";
+import LeaderDashBoard from "./Components/LeaderDashBoard";
+import AssignTask from "./Components/AssignTask";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -17,7 +19,7 @@ export default function App() {
       errorElement: <ErrorPage />,
       children: [
         {
-          path: "/",
+          path: "",
           element: <HomePage />,
         },
         {
@@ -44,6 +46,17 @@ export default function App() {
           path: "/team-leader/dashboard",
           loader: verifyTokenLoader,
           element: <LeaderDashboardPage />,
+          children: [
+            {
+              path: "",
+              element: <LeaderDashBoard />,
+            },
+            {
+              path: "assign-task",
+              loader: verifyTokenLoader,
+              element: <AssignTask />,
+            },
+          ],
         },
         {
           path: "/member/dashboard",

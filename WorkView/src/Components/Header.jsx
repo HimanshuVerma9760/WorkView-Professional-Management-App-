@@ -25,9 +25,24 @@ export default function Header() {
         </li>
         <div className="nav">
           {isLogin ? (
-            <li>
-              <Link onClick={logoutHandler}>Log out</Link>
-            </li>
+            <>
+              <li>
+                <Link
+                  onClick={(e) => {
+                    e.preventDefault();
+                    logoutHandler();
+                  }}
+                >
+                  Log out
+                </Link>
+              </li>
+              <li>
+                <Link to="/team-leader/dashboard/assign-task">Assign task</Link>
+              </li>
+              <li>
+                <Link to="/team-leader/dashboard">Dashboard</Link>
+              </li>
+            </>
           ) : (
             <li>
               <Link to="/login">Log in</Link>
@@ -38,6 +53,7 @@ export default function Header() {
           </li>
         </div>
       </div>
+
       <div>
         <Outlet />
       </div>
