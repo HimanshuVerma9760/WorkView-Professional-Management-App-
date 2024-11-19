@@ -1,13 +1,21 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "../css/Header.css";
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Header() {
   const location = useLocation();
-  // const [isLogin, setIsLogin] = useState(false);
-  // useEffect(() => {
-  //   localStorage.getItem("token") ? setIsLogin(true) : setIsLogin(false);
-  // }, [location]);
+  const navigate = useNavigate();
+  const path = location.pathname.split("/")[2];
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    path === "dashboard" ? setIsLogin(true) : setIsLogin(false);
+  }, [location]);
+
+  function logoutHandler() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("whichDash");
+    navigate("/login");
+  }
 
   return (
     <>
@@ -16,16 +24,15 @@ export default function Header() {
           <Link to="/">Work view</Link>
         </li>
         <div className="nav">
-          {/* {isLogin ? (
+          {isLogin ? (
             <li>
-              <Link to="/team-leader/dashboard">Dashboard</Link>
-              <Link onClick={LogOut}>Log out</Link>
+              <Link onClick={logoutHandler}>Log out</Link>
             </li>
-          ) : ( */}
-          <li>
-            <Link to="/login">Log in</Link>
-          </li>
-          {/* )} */}
+          ) : (
+            <li>
+              <Link to="/login">Log in</Link>
+            </li>
+          )}
           <li>
             <Link to="/contact-us">Contact us</Link>
           </li>

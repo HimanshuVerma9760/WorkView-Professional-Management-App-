@@ -1,0 +1,96 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.sideBar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  width:fit-content;
+  min-height: 100vh;
+  background-color: #2c3e50;
+  padding: 20px;
+  color: #ecf0f1;
+  position: relative;
+  left: 0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.sideBar h1 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #ecdbba;
+}
+
+.sideBar button {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.sideBar button:hover {
+  background-color: #c0392b;
+}
+
+.sideBar div h3 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #bdc3c7;
+}
+
+.sideBar div p {
+  font-size: 1rem;
+  color: #95a5a6;
+}
+.content{
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: center;
+}
+
+@media screen and (max-width: 768px) {
+  .sideBar {
+    /* width: 50%; */
+    padding: 15px;
+  }
+
+  .sideBar h1 {
+    font-size: 15px;
+  }
+
+  .sideBar div h3 {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sideBar {
+    /* width: 50%; */
+    padding: 15px;
+  }
+
+  .sideBar h1 {
+    font-size: 15px;
+  }
+
+  .sideBar div h3 {
+    font-size: 15px;
+  }
+}
