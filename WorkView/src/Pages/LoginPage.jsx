@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import CryptoJs from "crypto-js";
 import "../css/LoginPage.css";
 import "../css/FormCard.css";
 
@@ -29,9 +30,14 @@ export default function LoginPage() {
     setTeamCodeError("");
     const token = localStorage.getItem("token");
     function checkLogin() {
-      if (token) {
-        setError(true);
-        setDbError("Someone is already logged In, Kindly Log out first!");
+      if (token && localStorage.getItem("whichDash")) {
+        const decryptedData = CryptoJs.AES.decrypt(
+          localStorage.getItem("whichDash"),
+          token
+        ).toString(CryptoJs.enc.Utf8);
+        if (decryptedData === "team-leader" || decryptedData === "member") {
+          navigate(`/${decryptedData}/dashboard`);
+        }
       } else {
         setDbError("");
         setError(false);
@@ -152,6 +158,11 @@ export default function LoginPage() {
         // console.log(res);
         const token = res.token;
         localStorage.setItem("token", token);
+        const encryptedData = CryptoJs.AES.encrypt(
+          apiName.current,
+          token
+        ).toString();
+        localStorage.setItem("whichDash", encryptedData);
         navigate(`/${apiName.current}/dashboard`);
       }
       setEmail("");

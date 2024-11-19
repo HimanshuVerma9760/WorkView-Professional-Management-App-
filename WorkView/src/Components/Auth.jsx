@@ -30,7 +30,6 @@ export async function loader({ request }) {
   const url = new URL(request.url);
   const apiName = url.pathname;
   const token = localStorage.getItem("token");
-  console.log("token in loader/local storage", token);
   if (!token) {
     return redirectToLogin();
   }

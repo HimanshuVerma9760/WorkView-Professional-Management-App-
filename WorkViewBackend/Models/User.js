@@ -22,9 +22,9 @@ const userSchema = new Schema({
     type: String,
     default: "Member",
   },
-  teamCode:{
-    type:String,
-    required:true,
+  teamCode: {
+    type: String,
+    required: true,
   },
   tasks: [
     {
