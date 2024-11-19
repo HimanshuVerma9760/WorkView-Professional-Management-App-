@@ -160,7 +160,7 @@ export default function FormCard() {
           setDbError("Sorry..! Try Again Later");
         }
       } else {
-        navigate(`/${apiName.current}-dashboard`);
+        navigate(`/${apiName.current}/dashboard`);
       }
       setEmail("");
       setName("");
