@@ -9,7 +9,7 @@
   border: 2px solid rgb(213, 210, 210);
   border-radius: 5px;
   padding: 10px;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .btnStyle {
@@ -41,4 +41,17 @@
   color: red;
   text-align: center;
   margin-top: 2rem;
+}
+
+@media (max-width: 480px) {
+  .inputStyle {
+    min-height: 1rem;
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+  .btnStyle {
+    min-height: 2rem;
+    font-size: 12px;
+    margin-bottom: 1rem;
+  }
 }

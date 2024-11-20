@@ -21,6 +21,13 @@
   margin: auto;
 }
 
+.navClicks {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
 @media (max-width: 768px) {
   .mainHead {
     font-size: 1.2rem;
@@ -35,11 +42,19 @@
     max-width: 80%;
     padding: 1rem;
   }
+  .navClicks {
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
   .mainHead {
     font-size: 1rem;
+  }
+  .navClicks {
+    flex-direction: column;
+    gap: 1rem;
   }
 
   .mainHead h2 {

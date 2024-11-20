@@ -158,7 +158,6 @@ export default function LoginPage() {
       } else {
         console.log("token is set");
         const res = await response.json();
-        // console.log(res);
         const token = res.token;
         localStorage.setItem("token", token);
         const encryptedData = CryptoJs.AES.encrypt(
@@ -187,14 +186,7 @@ export default function LoginPage() {
             <h3>
               Login or <Link to="/sign-up">Create an account</Link>
             </h3>
-            <div
-              style={{
-                display: "flex",
-                gap: "2rem",
-                justifyContent: "space-between",
-                marginTop: "2rem",
-              }}
-            >
+            <div className="navClicks">
               <Link
                 to="/login"
                 className={`link${
