@@ -1,7 +1,51 @@
 import { useOutletContext } from "react-router-dom";
 import "../css/LeaderDashBoard.css";
+import { useEffect, useState } from "react";
 export default function LeaderDashBoard() {
   const leaderData = useOutletContext();
+  const [error, setError] = useState(null);
+  const [assignedTasks, setAssignedTasks] = useState(leaderData.tasks);
+
+  // useEffect(() => {
+  //   setAssignedTasks(leaderData.tasks);
+  // }, [leaderData]);
+
+  function deleteState(id) {
+    setAssignedTasks((eachTask) => eachTask.filter((task) => task._id !== id));
+  }
+
+  async function deleteHandler(taskId, createdBy, assignedTo) {
+    deleteState(taskId);
+    let response;
+    const removalData = {
+      taskId,
+      createdBy,
+      assignedTo,
+    };
+    try {
+      response = await fetch("http://localhost:3000/team-leader/remove-task", {
+        method: "post",
+        body: JSON.stringify(removalData),
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (!response.ok) {
+        if (response !== undefined) {
+          const res = await response.json();
+          console.log("Error occured! while deleting task", res.error);
+          setError(res.error);
+        } else {
+          setError("Something went Wrong!");
+        }
+      } else {
+        console.log("Removal of task successfull!");
+      }
+    } catch (error) {
+      console.log("Unexpected Error occured!", error);
+    }
+  }
   return (
     <>
       <div className="mainDashboard">
@@ -16,13 +60,25 @@ export default function LeaderDashBoard() {
             </p>
           </div>
           <div>
+            {error && <p>{error}</p>}
             <h2>Assigned Tasks</h2>
-            {leaderData.tasks.length === 0 ? (
+            {assignedTasks.length === 0 ? (
               <p>No Tasks Assigned!</p>
             ) : (
-              leaderData.tasks.map((eachTask) => (
+              assignedTasks.map((eachTask) => (
                 <ol>
                   <li>{eachTask.title}</li>
+                  <button
+                    onClick={() =>
+                      deleteHandler(
+                        eachTask._id,
+                        eachTask.createdBy,
+                        eachTask.assignedTo
+                      )
+                    }
+                  >
+                    Remove
+                  </button>
                 </ol>
               ))
             )}

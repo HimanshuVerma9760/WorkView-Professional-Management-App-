@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import "../css/AssignTask.css";
-import { json, useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 export default function AssignTask() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -17,7 +17,6 @@ export default function AssignTask() {
 
   const navigate = useNavigate();
   const leaderData = useLoaderData();
-  console.log(leaderData);
 
   function onChangeHandler(event) {
     const id = event.target.id;

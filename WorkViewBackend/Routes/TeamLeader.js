@@ -8,6 +8,7 @@ const Auth = require("../Controller/Auth");
 const dashBoardController = require("../Controller/dashBoardController");
 const {
   individualAssignTaskController,
+  removeTask,
 } = require("../Controller/TaskController");
 const router = express.Router();
 
@@ -54,5 +55,6 @@ router.post(
 router.use(Auth);
 router.get("/dashboard", dashBoardController);
 router.post("/dashboard/assign-task", individualAssignTaskController);
+router.post("/remove-task", removeTask);
 
 exports.teamLeader = router;

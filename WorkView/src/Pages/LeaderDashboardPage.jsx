@@ -4,7 +4,6 @@ export default function LeaderDashboardPage() {
   const navigate = useNavigate();
   const leaderData = useLoaderData();
 
-  console.log(leaderData);
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("whichDash");
