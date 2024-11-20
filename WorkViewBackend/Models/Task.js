@@ -11,6 +11,10 @@ const taskSchema = new Schema({
     type: String,
     trim: true,
   },
+  groupTask: {
+    type: Boolean,
+    default: false,
+  },
   status: {
     type: String,
     enum: ["Pending", "In Progress", "Completed"],
@@ -23,17 +27,21 @@ const taskSchema = new Schema({
   assignedTo: {
     type: Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: "TeamLeader",
+    required: true,
   },
   deadline: {
     type: Date,
+    required: true,
   },
   createdAt: {
     type: Date,
     default: Date.now,
+    required: true,
   },
 });
 

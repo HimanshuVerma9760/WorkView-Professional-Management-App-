@@ -3,6 +3,8 @@ import "../css/LeaderDashBoard.css";
 export default function LeaderDashboardPage() {
   const navigate = useNavigate();
   const leaderData = useLoaderData();
+
+  console.log(leaderData);
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("whichDash");
@@ -17,7 +19,7 @@ export default function LeaderDashboardPage() {
             <h1>Leader Dashboard</h1>
             <button onClick={handleLogout}>Log Out</button>
           </div>
-          {leaderData ? (
+          {leaderData.error === undefined ? (
             <div>
               <h3>Name: {leaderData.name}</h3>
               <h3>Email: {leaderData.email}</h3>

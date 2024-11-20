@@ -22,7 +22,7 @@ export default function LeaderDashBoard() {
             ) : (
               leaderData.tasks.map((eachTask) => (
                 <ol>
-                  <li>{eachTask.name}</li>
+                  <li>{eachTask.title}</li>
                 </ol>
               ))
             )}

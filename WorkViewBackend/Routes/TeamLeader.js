@@ -6,6 +6,9 @@ const {
 const { body, validationResult } = require("express-validator");
 const Auth = require("../Controller/Auth");
 const dashBoardController = require("../Controller/dashBoardController");
+const {
+  individualAssignTaskController,
+} = require("../Controller/TaskController");
 const router = express.Router();
 
 router.post(
@@ -50,5 +53,6 @@ router.post(
 
 router.use(Auth);
 router.get("/dashboard", dashBoardController);
+router.post("/dashboard/assign-task", individualAssignTaskController);
 
 exports.teamLeader = router;
