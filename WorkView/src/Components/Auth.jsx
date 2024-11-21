@@ -51,3 +51,26 @@ function redirectToLogin() {
     headers: { Location: "/" },
   });
 }
+
+export async function leaderLoader() {
+  let response;
+  try {
+    response = await fetch(
+      "http://localhost:3000/team-leader/get-updated-leader-data",
+      {
+        method: "get",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Error occured while fetching leader data!");
+    } else {
+      const result = await response.json();
+      return result;
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+}

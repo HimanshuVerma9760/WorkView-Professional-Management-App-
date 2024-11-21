@@ -1,14 +1,10 @@
-import { useOutletContext } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import "../css/LeaderDashBoard.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 export default function LeaderDashBoard() {
-  const leaderData = useOutletContext();
+  const leaderData = useLoaderData();
   const [error, setError] = useState(null);
-  const [assignedTasks, setAssignedTasks] = useState(leaderData.tasks);
-
-  // useEffect(() => {
-  //   setAssignedTasks(leaderData.tasks);
-  // }, [leaderData]);
+  const [assignedTasks, setAssignedTasks] = useState(leaderData.leader.tasks);
 
   function deleteState(id) {
     setAssignedTasks((eachTask) => eachTask.filter((task) => task._id !== id));

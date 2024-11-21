@@ -88,5 +88,19 @@ const checkTeamLeader = async (req, res, next) => {
   }
 };
 
+exports.getTeamLeaderTasks = async (req, res, next) => {
+  try {
+    const id = req.id;
+    const leader = await TeamLeader.findById(id).populate("tasks");
+    if (leader) {
+      return res.json({ message: "leader sent", leader });
+    } else {
+      return res.status(500).json({ error: "Cannot find the leader!" });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+};
+
 exports.postTeamLeader = postTeamLeader;
 exports.checkTeamLeader = checkTeamLeader;
