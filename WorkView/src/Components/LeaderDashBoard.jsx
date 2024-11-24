@@ -4,7 +4,6 @@ import { useState } from "react";
 
 export default function LeaderDashBoard() {
   const leaderData = useLoaderData();
-  console.log("leaders data tasks", leaderData.tasks);
 
   const [error, setError] = useState(null);
   const [showNotesFor, setShowNotesFor] = useState(null);
@@ -86,59 +85,57 @@ export default function LeaderDashBoard() {
             assignedTasks.map((eachTask) => {
               const { datePart, timePart } = convertToIST(eachTask.createdAt);
               return (
-                <div className="taskCard">
-                  <ol key={eachTask._id}>
+                <ol key={eachTask._id} className="taskCard">
+                  <li>
+                    <p>
+                      {datePart} at {timePart}
+                    </p>
+                  </li>
+                  <li className="taskTitle">
+                    <h3>{eachTask.title}</h3>
+                  </li>
+                  <li className="assignedTo">
+                    <h3>@{eachTask.assignedTo.name}</h3>
+                  </li>
+                  {showNotesFor === eachTask._id && (
                     <li>
                       <p>
-                        {datePart} at {timePart}
+                        {eachTask.notes.trim().length === 0
+                          ? "No Updates yet!"
+                          : eachTask.notes}
                       </p>
                     </li>
-                    <li className="taskTitle">
-                      <h3>{eachTask.title}</h3>
-                    </li>
-                    <li className="assignedTo">
-                      <h3>@{eachTask.assignedTo.name}</h3>
-                    </li>
-                    {showNotesFor === eachTask._id && (
-                      <li>
-                        <p>
-                          {eachTask.notes.trim().length === 0
-                            ? "No Updates yet!"
-                            : eachTask.notes}
-                        </p>
-                      </li>
-                    )}
-                    <li className="deadLine">
-                      <p>
-                        {`${Math.floor(
-                          (Date.parse(eachTask.deadline) - Date.now()) /
-                            (3600 * 1000)
-                        )} hrs left - (${eachTask.status})`}
-                      </p>
-                    </li>
-                    <div className="tasksBtn">
-                      <button
-                        className="btnStyleTasks"
-                        onClick={() => progressHandler(eachTask._id)}
-                      >
-                        Progress
-                      </button>
+                  )}
+                  <li className="deadLine">
+                    <p>
+                      {`${Math.floor(
+                        (Date.parse(eachTask.deadline) - Date.now()) /
+                          (3600 * 1000)
+                      )} hrs left - (${eachTask.status})`}
+                    </p>
+                  </li>
+                  <div className="tasksBtn">
+                    <button
+                      className="btnStyleTasks"
+                      onClick={() => progressHandler(eachTask._id)}
+                    >
+                      Progress
+                    </button>
 
-                      <button
-                        className="btnStyleTasks"
-                        onClick={() =>
-                          deleteHandler(
-                            eachTask._id,
-                            eachTask.createdBy,
-                            eachTask.assignedTo
-                          )
-                        }
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </ol>
-                </div>
+                    <button
+                      className="btnStyleTasks"
+                      onClick={() =>
+                        deleteHandler(
+                          eachTask._id,
+                          eachTask.createdBy,
+                          eachTask.assignedTo
+                        )
+                      }
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </ol>
               );
             })
           )}
