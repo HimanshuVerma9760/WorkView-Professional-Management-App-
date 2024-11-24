@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const TeamLeader = require("../Models/TeamLeader");
+const Task = require("../Models/Task");
 
 async function generateUniqueCode() {
   const characters =
@@ -91,11 +92,11 @@ const checkTeamLeader = async (req, res, next) => {
 exports.getTeamLeaderTasks = async (req, res, next) => {
   try {
     const id = req.id;
-    const leader = await TeamLeader.findById(id).populate("tasks");
-    if (leader) {
-      return res.json({ message: "leader sent", leader });
+    const tasks = await Task.find({ createdBy: id }).populate("assignedTo", "name");
+    if (tasks) {
+      return res.json({ message: "tasks sent", tasks });
     } else {
-      return res.status(500).json({ error: "Cannot find the leader!" });
+      return res.status(500).json({ error: "Cannot find the tasks!" });
     }
   } catch (error) {
     return res.status(500).json({ error: error });

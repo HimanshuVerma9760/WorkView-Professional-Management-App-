@@ -5,6 +5,15 @@ const User = require("../Models/User");
 exports.individualAssignTaskController = async (req, res, next) => {
   const { title, description, deadLine, assignedTo, createdBy } = req.body;
 
+  const todaysDate = Date.now();
+  const setDate = Date.parse(deadLine);
+  if (isNaN(setDate)) {
+    return res.status(500).json({ error: "Invalid date!" });
+  } else if (setDate - todaysDate < 0) {
+    return res
+      .status(500)
+      .json({ error: "Date cannot be earlier than today's date!" });
+  }
   const task = new Task({
     title,
     description,

@@ -57,7 +57,7 @@ export default function AssignTask() {
       isValid.current = false;
       setDescriptionError("Invalid Description! length must be atleast 15");
     }
-    if (deadLine.trim().length === 0) {
+    if (deadLine.trim().length === 0 || !isValid.current) {
       isValid.current = false;
       setDeadLineError("Must provide a Deadline!");
     }
@@ -107,14 +107,28 @@ export default function AssignTask() {
       }
     }
   }
+
+  function dateCheck(event) {
+    const todayDate = Date.now();
+    const setDate = Date.parse(event.target.value);
+    if (isNaN(setDate)) {
+      isValid.current = false;
+      setDeadLineError("Invalid Date!");
+    } else if (setDate - todayDate < 0) {
+      isValid.current = false;
+      setDeadLineError("The deadline date cannot be earlier than today!");
+    } else {
+      isValid.current = true;
+      setDeadLineError("");
+    }
+  }
   return (
     <>
       <div className="mainBody">
         <div>
           <h3>Assign New Task</h3>
+          <div className="errorText">{DBError && <p>{DBError}</p>}</div>
         </div>
-        {console.log("dberror", DBError)}
-        <div>{DBError && <p>{DBError}</p>}</div>
         <form onSubmit={(event) => submitHandler(event)}>
           <div className="formDiv">
             <label htmlFor="title">Title</label>
@@ -149,6 +163,7 @@ export default function AssignTask() {
               className="inputStyle"
               id="deadLine"
               type="Date"
+              onBlur={(event) => dateCheck(event)}
               value={deadLine}
               onChange={onChangeHandler}
             />

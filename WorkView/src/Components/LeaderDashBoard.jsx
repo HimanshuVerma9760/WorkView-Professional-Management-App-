@@ -1,10 +1,28 @@
 import { useLoaderData } from "react-router-dom";
 import "../css/LeaderDashBoard.css";
 import { useState } from "react";
+
 export default function LeaderDashBoard() {
   const leaderData = useLoaderData();
+  console.log("leaders data tasks", leaderData.tasks);
+
   const [error, setError] = useState(null);
-  const [assignedTasks, setAssignedTasks] = useState(leaderData.leader.tasks);
+  const [showNotesFor, setShowNotesFor] = useState(null);
+  const [assignedTasks, setAssignedTasks] = useState(leaderData.tasks);
+
+  function convertToIST(dateString) {
+    const date = new Date(dateString);
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    };
+    const datePart = date.toLocaleDateString("en-CA", options);
+    const timePart = date.toLocaleTimeString("en-GB", {
+      hour12: true,
+    });
+    return { datePart, timePart };
+  }
 
   function deleteState(id) {
     setAssignedTasks((eachTask) => eachTask.filter((task) => task._id !== id));
@@ -12,75 +30,120 @@ export default function LeaderDashBoard() {
 
   async function deleteHandler(taskId, createdBy, assignedTo) {
     deleteState(taskId);
-    let response;
     const removalData = {
       taskId,
       createdBy,
       assignedTo,
     };
+
     try {
-      response = await fetch("http://localhost:3000/team-leader/remove-task", {
-        method: "post",
-        body: JSON.stringify(removalData),
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      if (!response.ok) {
-        if (response !== undefined) {
-          const res = await response.json();
-          console.log("Error occured! while deleting task", res.error);
-          setError(res.error);
-        } else {
-          setError("Something went Wrong!");
+      const response = await fetch(
+        "http://localhost:3000/team-leader/remove-task",
+        {
+          method: "post",
+          body: JSON.stringify(removalData),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
+      );
+      if (!response.ok) {
+        const res = await response.json();
+        console.error("Error occurred while deleting task", res.error);
+        setError(res.error);
       } else {
-        console.log("Removal of task successfull!");
+        console.log("Task removed successfully!");
       }
     } catch (error) {
-      console.log("Unexpected Error occured!", error);
+      console.error("Unexpected error occurred!", error);
+      setError("Something went wrong while deleting the task.");
     }
   }
+
+  function progressHandler(id) {
+    setShowNotesFor((prevId) => (prevId === id ? null : id));
+  }
+
   return (
-    <>
-      <div className="mainDashboard">
+    <div className="mainDashboard">
+      <div>
         <div>
-          <div>
-            <h1>Hello</h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Repellendus nihil numquam, ducimus consectetur doloremque tempore
-              vitae eveniet. Iure, inventore corporis in doloremque magni quo
-              exercitationem odio, aut dolorum commodi iusto!
-            </p>
-          </div>
-          <div>
-            {error && <p>{error}</p>}
-            <h2>Assigned Tasks</h2>
-            {assignedTasks.length === 0 ? (
-              <p>No Tasks Assigned!</p>
-            ) : (
-              assignedTasks.map((eachTask) => (
-                <ol>
-                  <li>{eachTask.title}</li>
-                  <button
-                    onClick={() =>
-                      deleteHandler(
-                        eachTask._id,
-                        eachTask.createdBy,
-                        eachTask.assignedTo
-                      )
-                    }
-                  >
-                    Remove
-                  </button>
-                </ol>
-              ))
-            )}
-          </div>
+          <h1>Hello</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
+            nihil numquam, ducimus consectetur doloremque tempore vitae eveniet.
+            Iure, inventore corporis in doloremque magni quo exercitationem
+            odio, aut dolorum commodi iusto!
+          </p>
+        </div>
+        {error && <p>{error}</p>}
+        <h2>Assigned Tasks</h2>
+        <div className="tasks">
+          {assignedTasks.length === 0 ? (
+            <p>No Tasks Assigned!</p>
+          ) : (
+            assignedTasks.map((eachTask) => {
+              const { datePart, timePart } = convertToIST(eachTask.createdAt);
+              return (
+                <div className="taskCard">
+                  <ol key={eachTask._id}>
+                    <li>
+                      <p>
+                        {datePart} at {timePart}
+                      </p>
+                    </li>
+                    <li className="taskTitle">
+                      <h3>{eachTask.title}</h3>
+                    </li>
+                    <li className="assignedTo">
+                      <h3>@{eachTask.assignedTo.name}</h3>
+                    </li>
+                    {showNotesFor === eachTask._id && (
+                      <li>
+                        <p>
+                          {eachTask.notes.trim().length === 0
+                            ? "No Updates yet!"
+                            : eachTask.notes}
+                        </p>
+                      </li>
+                    )}
+                    <li className="deadLine">
+                      <p>
+                        {`${Math.floor(
+                          (Date.parse(eachTask.deadline) - Date.now()) /
+                            (3600 * 1000)
+                        )} hrs left - (${eachTask.status})`}
+                      </p>
+                    </li>
+                    <div className="tasksBtn">
+                      <button
+                        className="btnStyleTasks"
+                        onClick={() => progressHandler(eachTask._id)}
+                      >
+                        Progress
+                      </button>
+
+                      <button
+                        className="btnStyleTasks"
+                        onClick={() =>
+                          deleteHandler(
+                            eachTask._id,
+                            eachTask.createdBy,
+                            eachTask.assignedTo
+                          )
+                        }
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </ol>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
