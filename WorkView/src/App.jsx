@@ -6,7 +6,7 @@ import Contact from "./Pages/ContactPage";
 import SignUp from "./Pages/SignUp";
 import LoginPage from "./Pages/LoginPage";
 import LeaderDashboardPage from "./Pages/LeaderDashboardPage";
-import { leaderLoader, loader as verifyTokenLoader } from "./Components/Auth";
+import { tasksLoader, loader as verifyTokenLoader } from "./Components/Auth";
 import MemberDashboardPage from "./Pages/MemberDashboardPage";
 import LeaderDashBoard from "./Components/LeaderDashBoard";
 import AssignTask from "./Components/AssignTask";
@@ -49,7 +49,7 @@ export default function App() {
           children: [
             {
               path: "",
-              loader: leaderLoader,
+              loader: tasksLoader,
               element: <LeaderDashBoard />,
             },
             {

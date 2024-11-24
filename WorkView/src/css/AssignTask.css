@@ -3,3 +3,48 @@
   margin-left: 48rem;
   min-width: 40%;
 }
+.btnDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.btnDiv button {
+  padding: 1rem;
+  font-size: 15px;
+  width: 12rem;
+  border: 1px solid rgb(97, 150, 97);
+  border-radius: 5px;
+  cursor: pointer;
+}
+/* .btnDiv button:hover {
+  transition: 0.2s;
+  background-color: rgb(79, 130, 79);
+  color: white;
+} */
+._active {
+  padding: 1rem;
+  font-size: 15px;
+  width: 12rem;
+  border: 1px solid rgb(97, 150, 97);
+  border-radius: 5px;
+  background-color: rgb(97, 150, 97);
+  color: white;
+  cursor: pointer;
+}
+.btn {
+  padding: 0.8rem 2rem;
+  border-radius: 5px;
+  border: 1px solid rgb(97, 150, 97);
+  font-size: 1rem;
+}
+.btn:hover{
+  transition: 0.2s;
+  cursor: pointer;
+  background-color: rgb(97, 150, 97);
+  color: white;
+}
+.createMembersDiv{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

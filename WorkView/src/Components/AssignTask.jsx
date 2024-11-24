@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../css/AssignTask.css";
 import { useLoaderData, useNavigate } from "react-router-dom";
 export default function AssignTask() {
@@ -6,14 +6,20 @@ export default function AssignTask() {
   const [description, setDescription] = useState("");
   const [deadLine, setDeadLine] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
+  const [teamNumber, setTeamNumber] = useState("");
+  const [assignmentMode, setAssignmentMode] = useState("Individual");
+  const [createTeam, setCreateTeam] = useState(false);
+  const [teamCount, setTeamCount] = useState(0);
 
   const isValid = useRef(true);
+  const teamcreated = useRef(false);
 
   const [titleError, setTitleError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [deadLineError, setDeadLineError] = useState("");
   const [assignedToError, setAssignedToError] = useState("");
   const [DBError, setDBError] = useState("");
+  const [teamNumberError, setTeamNumberError] = useState("");
 
   const navigate = useNavigate();
   const leaderData = useLoaderData();
@@ -42,10 +48,34 @@ export default function AssignTask() {
         setAssignedToError("");
         isValid.current = true;
         break;
+      case "teamNo":
+        if (!(val < 0)) {
+          setTeamNumber(val);
+          setTeamNumberError("");
+          isValid.current = true;
+        }
+        break;
       default:
         break;
     }
   }
+
+  useEffect(() => {
+    setAssignedTo("");
+    setAssignedToError("");
+    setDBError("");
+    setDeadLine("");
+    setDeadLineError("");
+    setDescription("");
+    setDescriptionError("");
+    setTeamNumber("");
+    setTeamNumberError("");
+    setTitle("");
+    setTitleError("");
+    setCreateTeam(false);
+    isValid.current = true;
+    teamcreated.current = false;
+  }, [assignmentMode]);
 
   async function submitHandler(event) {
     event.preventDefault();
@@ -65,6 +95,25 @@ export default function AssignTask() {
       isValid.current = false;
       setAssignedToError("Must Assign the task!");
     }
+    if (
+      isNaN(teamNumber) ||
+      teamNumber === "" ||
+      teamNumber === null ||
+      teamNumber === undefined ||
+      teamNumber > leaderData.teamMembers.length
+    ) {
+      isValid.current = false;
+      if (teamNumber > leaderData.teamMembers.length) {
+        setTeamNumberError(
+          `Invalid Group Size, you have only ${leaderData.teamMembers.length} team-members!`
+        );
+      } else if (teamcreated.current === false) {
+        setTeamNumberError("Must create a Group before assigning task");
+      } else {
+        setTeamNumberError("Invalid input!");
+      }
+    }
+
     if (isValid.current) {
       if (localStorage.getItem("token") && localStorage.getItem("whichDash")) {
         const taskFormData = {
@@ -122,11 +171,54 @@ export default function AssignTask() {
       setDeadLineError("");
     }
   }
+
+  function assignmentModeHandler() {
+    setAssignmentMode((prevMode) => {
+      if (prevMode === "Individual") {
+        return "Group";
+      } else {
+        return "Individual";
+      }
+    });
+  }
+
+  function createTeamHandler() {
+    if (teamNumber === "") {
+      setTeamNumberError("Invalid input!");
+    } else if (teamNumber > leaderData.teamMembers.length) {
+      setTeamNumberError(
+        `Invalid input! you have only ${leaderData.teamMembers.length} members in your team`
+      );
+    } else {
+      setCreateTeam(true);
+      teamcreated.current = true;
+      setTeamCount(teamNumber);
+    }
+  }
+
   return (
     <>
       <div className="mainBody">
+        <div className="btnDiv">
+          <div>
+            <button
+              className={`${assignmentMode === "Individual" ? "_active" : ""}`}
+              onClick={assignmentModeHandler}
+            >
+              Individual Assignment
+            </button>
+          </div>
+          <div>
+            <button
+              className={`${assignmentMode === "Group" ? "_active" : ""}`}
+              onClick={assignmentModeHandler}
+            >
+              Group Assignment
+            </button>
+          </div>
+        </div>
         <div>
-          <h3>Assign New Task</h3>
+          <h3>Assigning {assignmentMode} Task</h3>
           <div className="errorText">{DBError && <p>{DBError}</p>}</div>
         </div>
         <form onSubmit={(event) => submitHandler(event)}>
@@ -171,31 +263,65 @@ export default function AssignTask() {
               {deadLineError && <p>{deadLineError}</p>}
             </div>
           </div>
-          <div className="formDiv">
-            <label htmlFor="assignedTo">Assign to</label>
-            <select
-              className="inputStyle"
-              id="assignedTo"
-              type="text"
-              value={assignedTo}
-              onChange={onChangeHandler}
-            >
-              <option key={0} value="" disabled>
-                Select from the following
-              </option>
-              {leaderData &&
-                leaderData.teamMembers.map((eachTeamMember) => (
-                  <>
-                    <option key={eachTeamMember._id} value={eachTeamMember._id}>
-                      {eachTeamMember.name} ({eachTeamMember.email})
-                    </option>
-                  </>
-                ))}
-            </select>
-            <div className="errorText">
-              {assignedToError && <p>{assignedToError}</p>}
-            </div>
-          </div>
+          {assignmentMode === "Individual" ? (
+            <>
+              <div className="formDiv">
+                <label htmlFor="assignedTo">Assign to</label>
+
+                <select
+                  className="inputStyle"
+                  id="assignedTo"
+                  type="text"
+                  value={assignedTo}
+                  onChange={onChangeHandler}
+                >
+                  <option key={0} value="" disabled>
+                    Select from the following
+                  </option>
+                  {leaderData &&
+                    leaderData.teamMembers.map((eachTeamMember) => (
+                      <>
+                        <option
+                          key={eachTeamMember._id}
+                          value={eachTeamMember._id}
+                        >
+                          {eachTeamMember.name} ({eachTeamMember.email})
+                        </option>
+                      </>
+                    ))}
+                </select>
+                <div className="errorText">
+                  {assignedToError && <p>{assignedToError}</p>}
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="formDiv">
+                <label htmlFor="members">Number of Group Members</label>
+                <section className="createMembersDiv">
+                  <input
+                    type="number"
+                    placeholder="Max 2"
+                    className="inputStyle"
+                    id="teamNo"
+                    value={teamNumber}
+                    onChange={onChangeHandler}
+                  />
+                  <button
+                    onClick={createTeamHandler}
+                    type="button"
+                    className="btn"
+                  >
+                    Create
+                  </button>
+                </section>
+                <div className="errorText">
+                  {teamNumberError && <p>{teamNumberError}</p>}
+                </div>
+              </div>
+            </>
+          )}
           <div type="submit">
             <button className="btnStyle" type="submit">
               Assign Task

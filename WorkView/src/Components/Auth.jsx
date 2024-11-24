@@ -52,7 +52,7 @@ function redirectToLogin() {
   });
 }
 
-export async function leaderLoader() {
+export async function tasksLoader() {
   let response;
   try {
     response = await fetch(
