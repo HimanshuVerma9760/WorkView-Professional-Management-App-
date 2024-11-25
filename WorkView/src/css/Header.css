@@ -13,6 +13,8 @@
   list-style: none;
   flex-direction: row-reverse;
   flex-wrap: wrap;
+  margin-top: 15px;
+  margin-right: 1.5rem;
 }
 
 li {

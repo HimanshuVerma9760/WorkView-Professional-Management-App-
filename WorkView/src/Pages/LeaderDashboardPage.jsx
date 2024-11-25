@@ -26,7 +26,7 @@ export default function LeaderDashboardPage() {
               <h3>Team Members: {leaderData.teamMembers.length}</h3>
             </div>
           ) : (
-            <p>Loading data...</p>
+            <p>No Team Members!</p>
           )}
         </div>
 

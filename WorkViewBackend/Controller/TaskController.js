@@ -54,6 +54,7 @@ exports.individualAssignTaskController = async (req, res, next) => {
 
 exports.removeTask = async (req, res, next) => {
   const { taskId, createdBy, assignedTo } = req.body;
+  console.log(req.body);
   let result, updateLeader, updateUser;
   try {
     result = await Task.deleteOne({ _id: taskId });
@@ -70,10 +71,11 @@ exports.removeTask = async (req, res, next) => {
       result.deletedCount === 0 ||
       updateLeader.modifiedCount === 0
     ) {
-      return res.json({ error: "Unable to Update tasks" });
+      console.log("Error occured");
+      return res.status(500).json({ error: "Unable to Update tasks" });
     }
     return res.json(result);
   } catch (error) {
-    return res.json({ error });
+    return res.status(500).json({ error });
   }
 };

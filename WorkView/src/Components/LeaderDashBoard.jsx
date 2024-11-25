@@ -35,6 +35,8 @@ export default function LeaderDashBoard() {
       assignedTo,
     };
 
+    console.log(removalData);
+
     try {
       const response = await fetch(
         "http://localhost:3000/team-leader/remove-task",
@@ -128,7 +130,7 @@ export default function LeaderDashBoard() {
                         deleteHandler(
                           eachTask._id,
                           eachTask.createdBy,
-                          eachTask.assignedTo
+                          eachTask.assignedTo._id
                         )
                       }
                     >

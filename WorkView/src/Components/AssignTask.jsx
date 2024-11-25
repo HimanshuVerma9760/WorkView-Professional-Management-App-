@@ -87,7 +87,7 @@ export default function AssignTask() {
       isValid.current = false;
       setDescriptionError("Invalid Description! length must be atleast 15");
     }
-    if (deadLine.trim().length === 0 || !isValid.current) {
+    if (deadLine.trim().length === 0) {
       isValid.current = false;
       setDeadLineError("Must provide a Deadline!");
     }
@@ -95,22 +95,24 @@ export default function AssignTask() {
       isValid.current = false;
       setAssignedToError("Must Assign the task!");
     }
-    if (
-      isNaN(teamNumber) ||
-      teamNumber === "" ||
-      teamNumber === null ||
-      teamNumber === undefined ||
-      teamNumber > leaderData.teamMembers.length
-    ) {
-      isValid.current = false;
-      if (teamNumber > leaderData.teamMembers.length) {
-        setTeamNumberError(
-          `Invalid Group Size, you have only ${leaderData.teamMembers.length} team-members!`
-        );
-      } else if (teamcreated.current === false) {
-        setTeamNumberError("Must create a Group before assigning task");
-      } else {
-        setTeamNumberError("Invalid input!");
+    if (assignmentMode === "Group") {
+      if (
+        isNaN(teamNumber) ||
+        teamNumber === "" ||
+        teamNumber === null ||
+        teamNumber === undefined ||
+        teamNumber > leaderData.teamMembers.length
+      ) {
+        isValid.current = false;
+        if (teamNumber > leaderData.teamMembers.length) {
+          setTeamNumberError(
+            `Invalid Group Size, you have only ${leaderData.teamMembers.length} team-members!`
+          );
+        } else if (teamcreated.current === false) {
+          setTeamNumberError("Must create a Group before assigning task");
+        } else {
+          setTeamNumberError("Invalid input!");
+        }
       }
     }
 
