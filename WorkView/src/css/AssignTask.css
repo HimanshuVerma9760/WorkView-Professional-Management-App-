@@ -48,3 +48,7 @@
   flex-direction: row;
   justify-content: space-between;
 }
+.selectGroup{
+  font-size: 10px;
+  max-width: 28rem;
+}

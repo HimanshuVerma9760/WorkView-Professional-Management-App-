@@ -29,13 +29,13 @@ export default function LeaderDashBoard() {
 
   async function deleteHandler(taskId, createdBy, assignedTo) {
     deleteState(taskId);
+    const newAssignTo = assignedTo.map((eachAssign) => eachAssign._id);
+    // console.log(newAssignTo);
     const removalData = {
       taskId,
       createdBy,
-      assignedTo,
+      assignedTo: newAssignTo,
     };
-
-    console.log(removalData);
 
     try {
       const response = await fetch(
@@ -97,7 +97,7 @@ export default function LeaderDashBoard() {
                     <h3>{eachTask.title}</h3>
                   </li>
                   <li className="assignedTo">
-                    <h3>@{eachTask.assignedTo.name}</h3>
+                    <h3>@{eachTask.assignedTo.map((member) => member.name)}</h3>
                   </li>
                   {showNotesFor === eachTask._id && (
                     <li>
@@ -130,7 +130,7 @@ export default function LeaderDashBoard() {
                         deleteHandler(
                           eachTask._id,
                           eachTask.createdBy,
-                          eachTask.assignedTo._id
+                          eachTask.assignedTo
                         )
                       }
                     >

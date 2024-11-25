@@ -29,12 +29,12 @@ const userSchema = new Schema({
   tasks: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Task", // References tasks assigned to this user
+      ref: "Task",
     },
   ],
   teamLeader: {
     type: Schema.Types.ObjectId,
-    ref: "TeamLeader", // References the team leader managing this user
+    ref: "TeamLeader",
   },
   createdAt: {
     type: Date,
