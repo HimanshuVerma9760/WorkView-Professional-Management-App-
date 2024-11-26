@@ -71,7 +71,7 @@ exports.removeTask = async (req, res, next) => {
     return res.status(500).json({ error });
   }
   try {
-    console.log("AssignedTo before deleting:", assignedTo);
+    // console.log("AssignedTo before deleting:", assignedTo);
     updateUser = await User.updateMany(
       { _id: { $in: assignedTo } },
       { $pull: { tasks: taskId } }

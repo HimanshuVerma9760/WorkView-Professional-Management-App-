@@ -97,7 +97,7 @@ export default function LeaderDashBoard() {
                     <h3>{eachTask.title}</h3>
                   </li>
                   <li className="assignedTo">
-                    <h3>@{eachTask.assignedTo.map((member) => member.name)}</h3>
+                    {eachTask.assignedTo.map((member) => <h3>@{member.name}</h3>)}
                   </li>
                   {showNotesFor === eachTask._id && (
                     <li>

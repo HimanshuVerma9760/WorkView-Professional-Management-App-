@@ -48,7 +48,7 @@ export async function loader({ request }) {
 function redirectToLogin() {
   return new Response(null, {
     status: 302,
-    headers: { Location: "/" },
+    headers: { Location: "/login" },
   });
 }
 

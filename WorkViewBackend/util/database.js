@@ -24,7 +24,7 @@ async function database() {
         if (updatedTeamMembers.length !== leader.teamMembers.length) {
           leader.teamMembers = updatedTeamMembers;
           await leader.save();
-          console.log(`Updated team members for leader ${leader._id}`);
+          console.log(`Updated team members for the leader ${leader._id}`);
         }
       }
     } else {
