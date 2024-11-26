@@ -25,9 +25,21 @@
   font-size: 1.5rem;
   margin-bottom: 20px;
   color: #ecdbba;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-
-.sideBar button {
+.sideBarDataDiv button {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  color: #ecdbba;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight:bold;
+}
+.sideBarDataDiv button:hover {
+  cursor: pointer;
+}
+/* .sideBar button {
   background-color: #e74c3c;
   color: #fff;
   border: none;
@@ -36,11 +48,11 @@
   cursor: pointer;
   font-size: 15px;
   transition: background-color 0.3s ease;
-}
+} */
 
-.sideBar button:hover {
+/* .sideBar button:hover {
   background-color: #c0392b;
-}
+} */
 
 .sideBar div h3 {
   font-size: 1rem;
@@ -80,9 +92,13 @@
   background-color: #2c3e50;
   height: fit-content;
   color: #ecf0f1;
-  padding: 1rem 3rem;
   border-radius: 8px;
+  padding-left: 2.9rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1rem;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  width: 16rem;
+  text-align: left;
 }
 .taskCard:hover {
   transition: 0.3s;
@@ -116,6 +132,25 @@
   transition: 0.2s;
   cursor: pointer;
   background-color: rgb(79, 130, 79);
+}
+.showGroupLink {
+  color: white;
+  text-decoration: none;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: small;
+  /* background-color: rgb(97, 150, 97); */
+  border-radius: 5px;
+}
+.showGroupLink:hover {
+  transition: 0.2s;
+  color: rgb(173, 236, 173);
+}
+.showGroupLinkDiv {
+  margin-top: 0.7rem;
+  margin-bottom: 1rem;
 }
 @media (max-width: 480px) {
   .sideBar {

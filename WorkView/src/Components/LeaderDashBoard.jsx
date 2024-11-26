@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import "../css/LeaderDashBoard.css";
 import { useState } from "react";
 
@@ -7,6 +7,7 @@ export default function LeaderDashBoard() {
 
   const [error, setError] = useState(null);
   const [showNotesFor, setShowNotesFor] = useState(null);
+  const [showGroupFor, setShowGroupFor] = useState(null);
   const [assignedTasks, setAssignedTasks] = useState(leaderData.tasks);
 
   function convertToIST(dateString) {
@@ -65,6 +66,11 @@ export default function LeaderDashBoard() {
   function progressHandler(id) {
     setShowNotesFor((prevId) => (prevId === id ? null : id));
   }
+  function handleShowGroup(e, id) {
+    e.preventDefault();
+    // setShowGroup((prevState) => !prevState);
+    setShowGroupFor((prevId) => (prevId === id ? null : id));
+  }
 
   return (
     <div className="mainDashboard">
@@ -96,9 +102,26 @@ export default function LeaderDashBoard() {
                   <li className="taskTitle">
                     <h3>{eachTask.title}</h3>
                   </li>
-                  <li className="assignedTo">
-                    {eachTask.assignedTo.map((member) => <h3>@{member.name}</h3>)}
-                  </li>
+                  {eachTask.assignedTo.length > 1 ? (
+                    <div className="showGroupLinkDiv">
+                      <Link
+                        className="showGroupLink"
+                        onClick={(e) => handleShowGroup(e, eachTask._id)}
+                      >
+                        {showGroupFor === eachTask._id ? "Hide" : "Show"} Group
+                      </Link>
+                    </div>
+                  ) : (
+                    <h3>@{eachTask.assignedTo[0].name}</h3>
+                  )}
+                  {showGroupFor === eachTask._id &&
+                    eachTask.assignedTo.length > 1 && (
+                      <li className="assignedTo">
+                        {eachTask.assignedTo.map((member) => (
+                          <h3 key={Math.random()}>@{member.name}</h3>
+                        ))}
+                      </li>
+                    )}
                   {showNotesFor === eachTask._id && (
                     <li>
                       <p>
