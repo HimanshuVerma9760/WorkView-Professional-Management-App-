@@ -34,25 +34,11 @@
   margin-top: 2rem;
   color: #ecdbba;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-weight:bold;
+  font-weight: bold;
 }
 .sideBarDataDiv button:hover {
   cursor: pointer;
 }
-/* .sideBar button {
-  background-color: #e74c3c;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 15px;
-  transition: background-color 0.3s ease;
-} */
-
-/* .sideBar button:hover {
-  background-color: #c0392b;
-} */
 
 .sideBar div h3 {
   font-size: 1rem;
@@ -134,6 +120,7 @@
   background-color: rgb(79, 130, 79);
 }
 .showGroupLink {
+  /* margin: auto; */
   color: white;
   text-decoration: none;
   padding-top: 5px;
@@ -141,8 +128,12 @@
   padding-left: 10px;
   padding-right: 10px;
   font-size: small;
-  /* background-color: rgb(97, 150, 97); */
   border-radius: 5px;
+}
+.deadlineLink{
+  color: #f63c28;
+  font-size: small;
+  margin: auto;
 }
 .showGroupLink:hover {
   transition: 0.2s;

@@ -8,6 +8,7 @@ export default function LeaderDashBoard() {
   const [error, setError] = useState(null);
   const [showNotesFor, setShowNotesFor] = useState(null);
   const [showGroupFor, setShowGroupFor] = useState(null);
+  const [showDeadLineFor, setShowDeadLineFor] = useState(null);
   const [assignedTasks, setAssignedTasks] = useState(leaderData.tasks);
 
   function convertToIST(dateString) {
@@ -68,8 +69,13 @@ export default function LeaderDashBoard() {
   }
   function handleShowGroup(e, id) {
     e.preventDefault();
-    // setShowGroup((prevState) => !prevState);
     setShowGroupFor((prevId) => (prevId === id ? null : id));
+  }
+
+  function showDeadLineHandler(e, id) {
+    e.preventDefault();
+    console.log("deadline handler");
+    setShowDeadLineFor((prevId) => (prevId === id ? null : id));
   }
 
   return (
@@ -133,11 +139,25 @@ export default function LeaderDashBoard() {
                   )}
                   <li className="deadLine">
                     <p>
-                      {`${Math.floor(
-                        (Date.parse(eachTask.deadline) - Date.now()) /
-                          (3600 * 1000)
-                      )} hrs left - (${eachTask.status})`}
+                      {Date.parse(eachTask.deadline) > Date.now() ? (
+                        `${Math.floor(
+                          (Date.parse(eachTask.deadline) - Date.now()) /
+                            (3600 * 1000)
+                        )} hrs left - (${eachTask.status})`
+                      ) : (
+                        <Link
+                          className="deadlineLink"
+                          onClick={(e) => showDeadLineHandler(e, eachTask._id)}
+                        >
+                          {eachTask.status} - (DeadLine)
+                        </Link>
+                      )}
                     </p>
+                    {showDeadLineFor === eachTask._id && (
+                      <li>
+                        <p>{convertToIST(eachTask.deadline).datePart}</p>
+                      </li>
+                    )}
                   </li>
                   <div className="tasksBtn">
                     <button
