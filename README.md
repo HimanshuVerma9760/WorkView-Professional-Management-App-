@@ -72,4 +72,16 @@ Open your browser and visit:
 
 http://localhost:3000
 
+## License
+
+This project is licensed under the WorkView License.
+See the LICENSE file for details.
+Contact
+
+For questions or support, feel free to reach out:
+
+    Himanshu Verma
+    Email: himanshu.verma@example.com
+
+
 Note: The project is currently under development and running locally. It is not hosted on any platform yet. Please ensure you follow the setup steps correctly to run the project on your local machine.
