@@ -81,7 +81,7 @@ Contact
 For questions or support, feel free to reach out:
 
     Himanshu Verma
-    Email: himanshu.verma@example.com
+    Email: himanshu2512verma@gmail.com
 
 
 Note: The project is currently under development and running locally. It is not hosted on any platform yet. Please ensure you follow the setup steps correctly to run the project on your local machine.
