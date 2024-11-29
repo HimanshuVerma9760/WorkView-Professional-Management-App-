@@ -130,6 +130,19 @@
   font-size: small;
   border-radius: 5px;
 }
+.tasksHeadSelect{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+.tasksHeadSelect select{
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid rgb(97, 150, 97);
+  background: transparent;
+}
 .deadlineLink{
   color: #f63c28;
   font-size: small;

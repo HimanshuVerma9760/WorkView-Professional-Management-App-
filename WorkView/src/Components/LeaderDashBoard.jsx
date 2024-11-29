@@ -1,6 +1,6 @@
 import { Link, useLoaderData } from "react-router-dom";
 import "../css/LeaderDashBoard.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function LeaderDashBoard() {
   const leaderData = useLoaderData();
@@ -9,7 +9,10 @@ export default function LeaderDashBoard() {
   const [showNotesFor, setShowNotesFor] = useState(null);
   const [showGroupFor, setShowGroupFor] = useState(null);
   const [showDeadLineFor, setShowDeadLineFor] = useState(null);
+  const [sortedSelectValue, setSortedSelectValue] = useState(null);
   const [assignedTasks, setAssignedTasks] = useState(leaderData.tasks);
+
+  const setAllTasksFilter = useRef(false);
 
   function convertToIST(dateString) {
     const date = new Date(dateString);
@@ -32,7 +35,6 @@ export default function LeaderDashBoard() {
   async function deleteHandler(taskId, createdBy, assignedTo) {
     deleteState(taskId);
     const newAssignTo = assignedTo.map((eachAssign) => eachAssign._id);
-    // console.log(newAssignTo);
     const removalData = {
       taskId,
       createdBy,
@@ -74,8 +76,12 @@ export default function LeaderDashBoard() {
 
   function showDeadLineHandler(e, id) {
     e.preventDefault();
-    console.log("deadline handler");
     setShowDeadLineFor((prevId) => (prevId === id ? null : id));
+  }
+
+  function onChangeHandler(event) {
+    console.log(event.target.value);
+    setSortedSelectValue(event.target.value);
   }
 
   return (
@@ -91,97 +97,116 @@ export default function LeaderDashBoard() {
           </p>
         </div>
         {error && <p>{error}</p>}
-        <h2>Assigned Tasks</h2>
+        <div className="tasksHeadSelect">
+          <h2>Assigned Tasks</h2>
+          <select defaultValue="All Tasks" onChange={onChangeHandler}>
+            <option value="All Tasks">All Tasks</option>
+            <option value="Pending">Pending Tasks</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed Tasks</option>
+            <option value="Not Completed">Not Completed</option>
+          </select>
+        </div>
         <div className="tasks">
           {assignedTasks.length === 0 ? (
             <p>No Tasks Assigned!</p>
           ) : (
             assignedTasks.map((eachTask) => {
-              const { datePart, timePart } = convertToIST(eachTask.createdAt);
-              return (
-                <ol key={eachTask._id} className="taskCard">
-                  <li>
-                    <p>
-                      {datePart} at {timePart}
-                    </p>
-                  </li>
-                  <li className="taskTitle">
-                    <h3>{eachTask.title}</h3>
-                  </li>
-                  {eachTask.assignedTo.length > 1 ? (
-                    <div className="showGroupLinkDiv">
-                      <Link
-                        className="showGroupLink"
-                        onClick={(e) => handleShowGroup(e, eachTask._id)}
-                      >
-                        {showGroupFor === eachTask._id ? "Hide" : "Show"} Group
-                      </Link>
-                    </div>
-                  ) : (
-                    <h3>@{eachTask.assignedTo[0].name}</h3>
-                  )}
-                  {showGroupFor === eachTask._id &&
-                    eachTask.assignedTo.length > 1 && (
-                      <li className="assignedTo">
-                        {eachTask.assignedTo.map((member) => (
-                          <h3 key={Math.random()}>@{member.name}</h3>
-                        ))}
-                      </li>
-                    )}
-                  {showNotesFor === eachTask._id && (
+              setAllTasksFilter.current =
+                sortedSelectValue === "All Tasks" ? true : false;
+              if (
+                eachTask.status === sortedSelectValue ||
+                setAllTasksFilter.current
+              ) {
+                const { datePart, timePart } = convertToIST(eachTask.createdAt);
+                return (
+                  <ol key={eachTask._id} className="taskCard">
                     <li>
                       <p>
-                        {eachTask.notes.trim().length === 0
-                          ? "No Updates yet!"
-                          : eachTask.notes}
+                        {datePart} at {timePart}
                       </p>
                     </li>
-                  )}
-                  <li className="deadLine">
-                    <p>
-                      {Date.parse(eachTask.deadline) > Date.now() ? (
-                        `${Math.floor(
-                          (Date.parse(eachTask.deadline) - Date.now()) /
-                            (3600 * 1000)
-                        )} hrs left - (${eachTask.status})`
-                      ) : (
+                    <li className="taskTitle">
+                      <h3>{eachTask.title}</h3>
+                    </li>
+                    {eachTask.assignedTo.length > 1 ? (
+                      <div className="showGroupLinkDiv">
                         <Link
-                          className="deadlineLink"
-                          onClick={(e) => showDeadLineHandler(e, eachTask._id)}
+                          className="showGroupLink"
+                          onClick={(e) => handleShowGroup(e, eachTask._id)}
                         >
-                          {eachTask.status} - (DeadLine)
+                          {showGroupFor === eachTask._id ? "Hide" : "Show"}{" "}
+                          Group
                         </Link>
+                      </div>
+                    ) : (
+                      <h3>@{eachTask.assignedTo[0].name}</h3>
+                    )}
+                    {showGroupFor === eachTask._id &&
+                      eachTask.assignedTo.length > 1 && (
+                        <li className="assignedTo">
+                          {eachTask.assignedTo.map((member) => (
+                            <h3 key={Math.random()}>@{member.name}</h3>
+                          ))}
+                        </li>
                       )}
-                    </p>
-                    {showDeadLineFor === eachTask._id && (
+                    {showNotesFor === eachTask._id && (
                       <li>
-                        <p>{convertToIST(eachTask.deadline).datePart}</p>
+                        <p>
+                          {eachTask.notes.trim().length === 0
+                            ? "No Updates yet!"
+                            : eachTask.notes}
+                        </p>
                       </li>
                     )}
-                  </li>
-                  <div className="tasksBtn">
-                    <button
-                      className="btnStyleTasks"
-                      onClick={() => progressHandler(eachTask._id)}
-                    >
-                      Progress
-                    </button>
+                    <li className="deadLine">
+                      <p>
+                        {Date.parse(eachTask.deadline) > Date.now() ? (
+                          `${Math.floor(
+                            (Date.parse(eachTask.deadline) - Date.now()) /
+                              (3600 * 1000)
+                          )} hrs left - (${eachTask.status})`
+                        ) : (
+                          <Link
+                            className="deadlineLink"
+                            onClick={(e) =>
+                              showDeadLineHandler(e, eachTask._id)
+                            }
+                          >
+                            {eachTask.status} - (DeadLine)
+                          </Link>
+                        )}
+                      </p>
+                      {showDeadLineFor === eachTask._id && (
+                        <li>
+                          <p>{convertToIST(eachTask.deadline).datePart}</p>
+                        </li>
+                      )}
+                    </li>
+                    <div className="tasksBtn">
+                      <button
+                        className="btnStyleTasks"
+                        onClick={() => progressHandler(eachTask._id)}
+                      >
+                        Progress
+                      </button>
 
-                    <button
-                      className="btnStyleTasks"
-                      onClick={() =>
-                        deleteHandler(
-                          eachTask._id,
-                          eachTask.createdBy,
-                          eachTask.assignedTo
-                        )
-                      }
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </ol>
-              );
+                      <button
+                        className="btnStyleTasks"
+                        onClick={() =>
+                          deleteHandler(
+                            eachTask._id,
+                            eachTask.createdBy,
+                            eachTask.assignedTo
+                          )
+                        }
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </ol>
+                );
+              }
             })
           )}
         </div>
