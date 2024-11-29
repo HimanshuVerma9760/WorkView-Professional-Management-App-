@@ -11,8 +11,9 @@ export default function MemberDashboardPage() {
     <>
       <div className="sideBar">
         <h1>Welcome to Member Dashboard</h1>
-        <button onClick={logoutHandler}>Log out</button>
+        <button className="btnStyle" onClick={logoutHandler}>Log out</button>
       </div>
+      
     </>
   );
 }

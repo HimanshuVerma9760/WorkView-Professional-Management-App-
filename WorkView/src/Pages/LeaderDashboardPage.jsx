@@ -50,7 +50,7 @@ export default function LeaderDashboardPage() {
         </div>
 
         <div>
-          <Outlet />
+          <Outlet context={leaderData.name}/>
         </div>
       </div>
     </>

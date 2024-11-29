@@ -1,18 +1,18 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useOutletContext } from "react-router-dom";
 import "../css/LeaderDashBoard.css";
 import { useRef, useState } from "react";
 
 export default function LeaderDashBoard() {
   const leaderData = useLoaderData();
-
+  const leaderName = useOutletContext();
   const [error, setError] = useState(null);
   const [showNotesFor, setShowNotesFor] = useState(null);
   const [showGroupFor, setShowGroupFor] = useState(null);
   const [showDeadLineFor, setShowDeadLineFor] = useState(null);
-  const [sortedSelectValue, setSortedSelectValue] = useState(null);
+  const [sortedSelectValue, setSortedSelectValue] = useState("All Tasks");
   const [assignedTasks, setAssignedTasks] = useState(leaderData.tasks);
 
-  const setAllTasksFilter = useRef(false);
+  const setAllTasksFilter = useRef(true);
 
   function convertToIST(dateString) {
     const date = new Date(dateString);
@@ -88,12 +88,12 @@ export default function LeaderDashBoard() {
     <div className="mainDashboard">
       <div>
         <div>
-          <h1>Hello</h1>
+          <h1>Hello, {leaderName.split(" ")[0]}</h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
-            nihil numquam, ducimus consectetur doloremque tempore vitae eveniet.
-            Iure, inventore corporis in doloremque magni quo exercitationem
-            odio, aut dolorum commodi iusto!
+            Welcome to your dashboard. This is your command center for tracking
+            team progress, managing tasks, and driving productivity.
+            <br /> Stay on top of your team's achievements and streamline your
+            workflows with ease. Let's make today productive!
           </p>
         </div>
         {error && <p>{error}</p>}
