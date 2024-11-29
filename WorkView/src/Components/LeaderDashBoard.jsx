@@ -88,7 +88,7 @@ export default function LeaderDashBoard() {
     <div className="mainDashboard">
       <div>
         <div>
-          <h1>Hello, {leaderName.split(" ")[0]}</h1>
+          <h1>Hello, {leaderName.split(" ")[0]}!</h1>
           <p>
             Welcome to your dashboard. This is your command center for tracking
             team progress, managing tasks, and driving productivity.

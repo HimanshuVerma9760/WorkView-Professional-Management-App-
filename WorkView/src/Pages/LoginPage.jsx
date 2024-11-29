@@ -37,7 +37,7 @@ export default function LoginPage() {
         ).toString(CryptoJs.enc.Utf8);
         if (decryptedData === "team-leader" || decryptedData === "member") {
           navigate(`/${decryptedData}/dashboard`);
-        }else{
+        } else {
           localStorage.removeItem("token");
           localStorage.removeItem("whichDash");
         }

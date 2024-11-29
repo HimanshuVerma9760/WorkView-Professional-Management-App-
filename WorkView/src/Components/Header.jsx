@@ -1,4 +1,6 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import CryptoJs from "crypto-js";
+
 import "../css/Header.css";
 import { useEffect, useState } from "react";
 
@@ -11,6 +13,16 @@ export default function Header() {
     path === "dashboard" ? setIsLogin(true) : setIsLogin(false);
   }, [location]);
 
+  const whichDash = localStorage.getItem("whichDash");
+  const token = localStorage.getItem("token");
+  let whichModule;
+  try {
+    whichModule = CryptoJs.AES.decrypt(whichDash, token).toString(
+      CryptoJs.enc.Utf8
+    );
+  } catch (error) {
+    console.log("Error occured during cryptoJs decryption!");
+  }
   function logoutHandler() {
     localStorage.removeItem("token");
     localStorage.removeItem("whichDash");
@@ -37,10 +49,12 @@ export default function Header() {
                 </Link>
               </li>
               <li>
-                <Link to="/team-leader/dashboard/assign-task">Assign task</Link>
+                <Link to="/team-leader/dashboard/assign-task">
+                  {whichModule === "member" ? "Your Tasks" : "Assign task"}
+                </Link>
               </li>
               <li>
-                <Link to="/team-leader/dashboard">Dashboard</Link>
+                <Link to={`/${whichModule}/dashboard`}>Dashboard</Link>
               </li>
             </>
           ) : (
