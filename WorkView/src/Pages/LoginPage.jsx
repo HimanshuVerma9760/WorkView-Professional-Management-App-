@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import CryptoJs from "crypto-js";
 import "../css/LoginPage.css";
 import "../css/FormCard.css";
+import { motion } from "framer-motion";
 
 export default function LoginPage() {
   const apiName = useRef("team-leader");
@@ -176,7 +177,11 @@ export default function LoginPage() {
   }
   return (
     <>
-      <div>
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+      >
         <div className="mainHead">
           <h1>Log in to your WorkView Account</h1>
           <h2>Professional's Personal Tab</h2>
@@ -263,7 +268,7 @@ export default function LoginPage() {
             </div>
           </form>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

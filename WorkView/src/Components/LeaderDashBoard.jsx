@@ -1,6 +1,7 @@
 import { Link, useLoaderData, useOutletContext } from "react-router-dom";
 import "../css/LeaderDashBoard.css";
 import { useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function LeaderDashBoard() {
   const leaderData = useLoaderData();
@@ -11,6 +12,8 @@ export default function LeaderDashBoard() {
   const [showDeadLineFor, setShowDeadLineFor] = useState(null);
   const [sortedSelectValue, setSortedSelectValue] = useState("All Tasks");
   const [assignedTasks, setAssignedTasks] = useState(leaderData.tasks);
+  const initial = { opacity: 0, y: -50 };
+  const final = { opacity: 1, y: 0 };
 
   const setAllTasksFilter = useRef(true);
 
@@ -86,7 +89,11 @@ export default function LeaderDashBoard() {
 
   return (
     <div className="mainDashboard">
-      <div>
+      <motion.div
+        initial={initial}
+        animate={final}
+        transition={{ duration: 0.7 }}
+      >
         <div>
           <h1>Hello, {leaderName.split(" ")[0]}!</h1>
           <p>
@@ -120,7 +127,7 @@ export default function LeaderDashBoard() {
               ) {
                 const { datePart, timePart } = convertToIST(eachTask.createdAt);
                 return (
-                  <ol key={eachTask._id} className="taskCard">
+                  <ol className="taskCard">
                     <li>
                       <p>
                         {datePart} at {timePart}
@@ -210,7 +217,7 @@ export default function LeaderDashBoard() {
             })
           )}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

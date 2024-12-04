@@ -15,12 +15,9 @@
   border: 1px solid rgb(97, 150, 97);
   border-radius: 5px;
   cursor: pointer;
+  margin-right: 1rem;
 }
-/* .btnDiv button:hover {
-  transition: 0.2s;
-  background-color: rgb(79, 130, 79);
-  color: white;
-} */
+
 ._active {
   padding: 1rem;
   font-size: 15px;
@@ -37,18 +34,18 @@
   border: 1px solid rgb(97, 150, 97);
   font-size: 1rem;
 }
-.btn:hover{
+.btn:hover {
   transition: 0.2s;
   cursor: pointer;
   background-color: rgb(97, 150, 97);
   color: white;
 }
-.createMembersDiv{
+.createMembersDiv {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.selectGroup{
+.selectGroup {
   font-size: 10px;
   max-width: 28rem;
 }

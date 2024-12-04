@@ -1,6 +1,8 @@
 import { useNavigate, useLoaderData, Outlet } from "react-router-dom";
 import "../css/LeaderDashBoard.css";
 import { useState } from "react";
+import { motion } from "framer-motion";
+
 export default function LeaderDashboardPage() {
   const navigate = useNavigate();
   const leaderData = useLoaderData();
@@ -31,14 +33,20 @@ export default function LeaderDashboardPage() {
               <h3>Email: {leaderData.email}</h3>
               <h3>Code: {leaderData.teamCode}</h3>
               <h3>
-                <button onClick={showTeamHandler}>
+                <motion.button
+                  whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+                  // animate={{ whileHover: { scale: 1.1 } }}
+                  onClick={showTeamHandler}
+                  style={{ marginBottom: "1rem" }}
+                >
                   Team Members: {leaderData.teamMembers.length}
-                </button>
+                </motion.button>
                 {team &&
                   leaderData.teamMembers.map((eachMember) => {
                     return (
                       <li key={eachMember._id}>
-                        - {eachMember.name}<br/>({eachMember.email})
+                        - {eachMember.name}
+                        <br />({eachMember.email})
                       </li>
                     );
                   })}
@@ -50,7 +58,7 @@ export default function LeaderDashboardPage() {
         </div>
 
         <div>
-          <Outlet context={leaderData.name}/>
+          <Outlet context={leaderData.name} />
         </div>
       </div>
     </>

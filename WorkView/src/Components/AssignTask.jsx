@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "../css/AssignTask.css";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { motion } from "framer-motion";
 
 export default function AssignTask() {
   const [title, setTitle] = useState("");
@@ -97,7 +98,7 @@ export default function AssignTask() {
       isValid.current = false;
       setDeadLineError("Must provide a Deadline!");
     }
-    if (assignedTo.length === 0) {  
+    if (assignedTo.length === 0) {
       isValid.current = false;
       setAssignedToError("Must Assign the task!");
     }
@@ -174,7 +175,12 @@ export default function AssignTask() {
 
   return (
     <>
-      <div className="mainBody">
+      <motion.div
+        className="mainBody"
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+      >
         <div className="btnDiv">
           <div>
             <button
@@ -285,7 +291,7 @@ export default function AssignTask() {
             </button>
           </div>
         </form>
-      </div>
+      </motion.div>
     </>
   );
 }
