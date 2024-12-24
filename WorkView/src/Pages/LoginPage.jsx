@@ -4,6 +4,7 @@ import CryptoJs from "crypto-js";
 import "../css/LoginPage.css";
 import "../css/FormCard.css";
 import { motion } from "framer-motion";
+const backendAPI=import.meta.env.VITE_BACKEND_API;
 
 export default function LoginPage() {
   const apiName = useRef("team-leader");
@@ -128,7 +129,7 @@ export default function LoginPage() {
       try {
         console.log("req is sent");
         response = await fetch(
-          `http://localhost:3000/${apiName.current}/api-login-${apiName.current}`,
+          `${backendAPI}/${apiName.current}/api-login-${apiName.current}`,
           {
             method: "post",
             headers: {

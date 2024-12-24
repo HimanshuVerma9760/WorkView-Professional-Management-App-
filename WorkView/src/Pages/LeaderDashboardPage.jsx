@@ -35,7 +35,6 @@ export default function LeaderDashboardPage() {
               <h3>
                 <motion.button
                   whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-                  // animate={{ whileHover: { scale: 1.1 } }}
                   onClick={showTeamHandler}
                   style={{ marginBottom: "1rem" }}
                 >

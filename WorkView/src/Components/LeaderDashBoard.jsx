@@ -1,7 +1,9 @@
 import { Link, useLoaderData, useOutletContext } from "react-router-dom";
 import "../css/LeaderDashBoard.css";
 import { useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
+
+const backendAPI=import.meta.env.VITE_BACKEND_API;
 
 export default function LeaderDashBoard() {
   const leaderData = useLoaderData();
@@ -46,7 +48,7 @@ export default function LeaderDashBoard() {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/team-leader/remove-task",
+        `${backendAPI}/team-leader/remove-task`,
         {
           method: "post",
           body: JSON.stringify(removalData),
@@ -168,7 +170,7 @@ export default function LeaderDashBoard() {
                     )}
                     <li className="deadLine">
                       <p>
-                        {Date.parse(eachTask.deadline) > Date.now() ? (
+                        {Date.parse(eachTask.deadline) >= Date.now() ? (
                           `${Math.floor(
                             (Date.parse(eachTask.deadline) - Date.now()) /
                               (3600 * 1000)

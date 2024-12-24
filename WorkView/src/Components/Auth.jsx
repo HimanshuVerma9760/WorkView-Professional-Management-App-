@@ -1,3 +1,5 @@
+  const backendAPI=import.meta.env.VITE_BACKEND_API;
+
 export default async function Auth(token, pathName) {
   let apiName = pathName === "/member/dashboard" ? "member" : "team-leader";
 
@@ -7,7 +9,7 @@ export default async function Auth(token, pathName) {
     apiName = "team-leader";
   }
   try {
-    const response = await fetch(`http://localhost:3000/${apiName}/dashboard`, {
+    const response = await fetch(`${backendAPI}/${apiName}/dashboard`, {
       method: "GET",
       headers: {
         authorization: `Bearer ${token}`,

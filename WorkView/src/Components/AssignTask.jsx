@@ -3,6 +3,7 @@ import "../css/AssignTask.css";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { motion } from "framer-motion";
+const backendAPI=import.meta.env.VITE_BACKEND_API;
 
 export default function AssignTask() {
   const [title, setTitle] = useState("");
@@ -117,7 +118,7 @@ export default function AssignTask() {
         let response;
         try {
           response = await fetch(
-            "http://localhost:3000/team-leader/dashboard/assign-task",
+            `${backendAPI}/team-leader/dashboard/assign-task`,
             {
               method: "post",
               headers: {
